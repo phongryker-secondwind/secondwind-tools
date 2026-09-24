@@ -63,6 +63,13 @@
 /* Bảng trong bài */
 .article-wrap .sw-table-wrap { margin: var(--sw-sp-4) 0; }
 
+/* Breadcrumb đầu trang + link quay về cuối bài (v1.1) */
+.breadcrumb { flex-wrap: wrap; }
+.breadcrumb a { color: inherit; text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb .sep { opacity: .6; }
+.related .back-link { margin-top: var(--sw-sp-3); }
+
 /* ---------- Trang mục lục ---------- */
 .index-wrap { max-width: 1080px; margin: 0 auto; padding: var(--sw-sp-7) var(--sw-sp-5) var(--sw-sp-8); }
 .index-group { margin-bottom: var(--sw-sp-7); }
