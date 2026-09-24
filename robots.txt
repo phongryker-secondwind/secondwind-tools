@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://phongryker-secondwind.github.io/secondwind-tools/sitemap.xml

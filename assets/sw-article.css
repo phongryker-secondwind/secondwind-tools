@@ -1,0 +1,71 @@
+/* ==========================================================================
+   SECOND WIND — CSS riêng cho trang bài viết, mục lục, 404
+   Dùng kèm secondwind-ui.css. Phần 1 giữ nguyên từ 7 bài HTML gốc.
+   ========================================================================== */
+
+/* ---------- Phần 1: giữ nguyên từ bài gốc ---------- */
+.hero-tag { display:inline-flex; align-items:center; gap:6px; font-size:var(--sw-fs-xs); font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--sw-cyan); margin-bottom:var(--sw-sp-3); }
+.hero-title { max-width: 20ch; }
+.hero-lede { max-width: 60ch; font-size: var(--sw-fs-lg); margin-top: var(--sw-sp-3); }
+.hero-meta { margin-top:var(--sw-sp-5); font-size:var(--sw-fs-xs); color:var(--sw-ink-300); }
+
+.article-wrap { max-width: 720px; margin: 0 auto; padding: var(--sw-sp-7) var(--sw-sp-5) var(--sw-sp-8); }
+.article-wrap h2 { font-size: var(--sw-fs-xl); margin: var(--sw-sp-6) 0 var(--sw-sp-3); color: var(--sw-text); }
+.article-wrap p { font-size: var(--sw-fs-md); color: var(--sw-text-2); line-height: 1.7; margin: 0 0 var(--sw-sp-3); }
+.article-wrap ol, .article-wrap ul { padding-left: 20px; margin: 0 0 var(--sw-sp-4); }
+.article-wrap li { font-size: var(--sw-fs-md); color: var(--sw-text-2); line-height: 1.6; margin-bottom: var(--sw-sp-3); }
+.article-wrap li strong { color: var(--sw-text); }
+.lede-intro { font-size: var(--sw-fs-lg); color: var(--sw-text); line-height: 1.6; }
+
+.fine-tag { display:inline-block; margin-top:4px; font-size:var(--sw-fs-xs); font-weight:700; padding:2px 10px; border-radius:var(--sw-radius-pill); background:var(--sw-danger-soft); color:var(--sw-danger); }
+
+.callout { background: var(--sw-primary-soft); border-radius: var(--sw-radius-lg); padding: var(--sw-sp-4) var(--sw-sp-5); margin: var(--sw-sp-5) 0; }
+.callout p { color: var(--sw-primary-ink); margin: 0; font-weight: 500; }
+
+.tips-card { margin-top: var(--sw-sp-3); }
+.tips-card ul { margin: 0; padding-left: 18px; }
+.tips-card li { color: var(--sw-text-2); font-size: var(--sw-fs-sm); margin-bottom: var(--sw-sp-2); }
+
+.cta-card { margin-top: var(--sw-sp-7); text-align: center; padding: var(--sw-sp-6) var(--sw-sp-5); background: var(--sw-ink-800); border: none; }
+.cta-card h3 { color: #FFFFFF; font-size: var(--sw-fs-xl); margin: 0 0 var(--sw-sp-2); }
+.cta-card p { color: var(--sw-ink-300); margin: 0 0 var(--sw-sp-4); }
+
+.related { margin-top: var(--sw-sp-6); padding-top: var(--sw-sp-5); border-top: 1px solid var(--sw-border); }
+.related a { display: block; margin-bottom: var(--sw-sp-2); }
+
+/* ---------- Phần 2: khối mới do hệ thống sinh ---------- */
+.article-wrap > h3 { font-size: var(--sw-fs-lg); margin: var(--sw-sp-5) 0 var(--sw-sp-2); color: var(--sw-text); }
+.article-wrap p a, .article-wrap li a, .article-wrap td a { color: var(--sw-primary); font-weight: 600; }
+.article-wrap hr { border: none; border-top: 1px solid var(--sw-border); margin: var(--sw-sp-6) 0; }
+
+/* Dòng căn cứ pháp lý dưới mỗi mức phạt: [CĂN CỨ] */
+.legal-ref { display: block; margin: 6px 0 var(--sw-sp-3); font-size: var(--sw-fs-xs); color: var(--sw-text-3); }
+.legal-ref::before { content: "Căn cứ: "; font-weight: 600; }
+
+/* Khung tóm tắt đầu bài: [TÓM TẮT] */
+.takeaways { background: var(--sw-surface); border: 1px solid var(--sw-border); border-left: 4px solid var(--sw-primary); border-radius: 0 var(--sw-radius-lg) var(--sw-radius-lg) 0; padding: var(--sw-sp-4) var(--sw-sp-5); margin: 0 0 var(--sw-sp-5); }
+.article-wrap .takeaways__title, .article-wrap .todo__title { font-size: var(--sw-fs-xs); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--sw-primary); margin: 0 0 var(--sw-sp-2) !important; }
+.takeaways ul, .todo ul { margin: 0; padding-left: 18px; }
+.article-wrap .takeaways li, .article-wrap .todo li { font-size: var(--sw-fs-sm); margin-bottom: var(--sw-sp-2); }
+
+/* Checklist hành động: [VIỆC CẦN LÀM] */
+.todo { background: var(--sw-success-soft); border-radius: var(--sw-radius-lg); padding: var(--sw-sp-4) var(--sw-sp-5); margin: var(--sw-sp-5) 0; }
+.article-wrap .todo__title { color: var(--sw-success); }
+.todo ul { list-style: none; padding-left: 0; }
+.article-wrap .todo li { padding-left: 26px; position: relative; color: var(--sw-text); }
+.todo li::before { content: "☐"; position: absolute; left: 0; top: -1px; font-size: 1.1em; color: var(--sw-success); }
+
+/* Ảnh: [ẢNH] */
+.article-figure { margin: var(--sw-sp-5) 0; }
+.article-figure img { max-width: 100%; height: auto; border-radius: var(--sw-radius-lg); display: block; }
+.article-figure figcaption { font-size: var(--sw-fs-xs); color: var(--sw-text-3); margin-top: var(--sw-sp-2); }
+
+/* Bảng trong bài */
+.article-wrap .sw-table-wrap { margin: var(--sw-sp-4) 0; }
+
+/* ---------- Trang mục lục ---------- */
+.index-wrap { max-width: 1080px; margin: 0 auto; padding: var(--sw-sp-7) var(--sw-sp-5) var(--sw-sp-8); }
+.index-group { margin-bottom: var(--sw-sp-7); }
+.index-group > h2 { font-size: var(--sw-fs-xl); margin: 0 0 var(--sw-sp-4); color: var(--sw-text); }
+.index-card { text-decoration: none; display: block; height: 100%; }
+.index-card .sw-card__title { font-size: var(--sw-fs-lg); }
