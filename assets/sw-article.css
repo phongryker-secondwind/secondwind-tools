@@ -76,3 +76,23 @@
 .index-group > h2 { font-size: var(--sw-fs-xl); margin: 0 0 var(--sw-sp-4); color: var(--sw-text); }
 .index-card { text-decoration: none; display: block; height: 100%; }
 .index-card .sw-card__title { font-size: var(--sw-fs-lg); }
+
+/* Bộ lọc trang chủ (v1.3) */
+.index-controls { position: sticky; top: 0; z-index: 10; background: var(--sw-bg); padding: var(--sw-sp-4) 0 var(--sw-sp-2); margin-bottom: var(--sw-sp-5); border-bottom: 1px solid var(--sw-border); }
+.index-controls[hidden], .index-card[hidden], .index-group[hidden], #idxEmpty[hidden] { display: none; }
+.index-controls__row { display: flex; flex-wrap: wrap; gap: var(--sw-sp-3); align-items: flex-end; }
+.index-controls .sw-field { margin-bottom: 0; }
+.index-search { flex: 1 1 260px; }
+.index-search__wrap { position: relative; }
+.index-search__wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--sw-text-3); pointer-events: none; }
+.index-search__wrap .sw-input { padding-left: 38px; width: 100%; }
+.index-group-field { min-width: 220px; }
+.index-group-field .sw-select { width: 100%; }
+.index-risk-field .sw-row { min-height: 44px; }
+.index-risk-field .sw-filter { font: inherit; font-size: var(--sw-fs-xs); }
+.index-count { margin: var(--sw-sp-3) 0 0; font-size: var(--sw-fs-xs); }
+.index-risk { margin-top: var(--sw-sp-3); }
+@media (max-width: 640px) {
+  .index-controls { position: static; }
+  .index-group-field, .index-risk-field { flex: 1 1 100%; }
+}
