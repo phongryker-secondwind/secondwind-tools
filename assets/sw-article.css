@@ -95,7 +95,24 @@
 @media (max-width: 640px) {
   .index-controls { position: static; }
   .index-group-field, .index-risk-field { flex: 1 1 100%; }
-/* Căn đều 2 bên */
+}
+
+/* Tag chuyên mục trên thẻ bài trang chủ (v1.3.3) */
+.index-card .sw-card__head { align-items: center; gap: var(--sw-sp-2); }
+.index-card .sw-card__head > span:first-child {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--sw-radius-pill);
+  background: var(--sw-primary-soft);
+  color: var(--sw-primary-ink);
+  font-size: var(--sw-fs-xs);
+  font-weight: 700;
+  letter-spacing: .02em;
+  line-height: 1.4;
+}
+.index-card .sw-card__head > span:first-child:empty { display: none; }
+
+/* Căn đều 2 bên (v1.3.3) — điện thoại trả về căn trái */
 .hero-lede,
 .index-card .sw-card__body,
 .article-wrap p,
@@ -103,7 +120,6 @@
   text-align: justify;
   text-justify: inter-word;
 }
-/* Điện thoại: màn hẹp, căn đều dễ tạo khoảng trắng lớn → trả về căn trái */
 @media (max-width: 640px) {
   .hero-lede,
   .index-card .sw-card__body,
