@@ -5,7 +5,7 @@
 
 /* ---------- Phần 1: giữ nguyên từ bài gốc ---------- */
 .hero-tag { display:inline-flex; align-items:center; gap:6px; font-size:var(--sw-fs-xs); font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--sw-cyan); margin-bottom:var(--sw-sp-3); }
-.hero-title { max-width: 20ch; }
+.hero-title { max-width: 30ch; } /* v1.3.4: 20ch → 30ch, tiêu đề ít xuống dòng hơn */
 .hero-lede { max-width: 60ch; font-size: var(--sw-fs-lg); margin-top: var(--sw-sp-3); }
 .hero-meta { margin-top:var(--sw-sp-5); font-size:var(--sw-fs-xs); color:var(--sw-ink-300); }
 
