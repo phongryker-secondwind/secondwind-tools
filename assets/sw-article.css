@@ -97,20 +97,13 @@
   .index-group-field, .index-risk-field { flex: 1 1 100%; }
 }
 
-/* Tag chuyên mục trên thẻ bài trang chủ (v1.3.3) */
-.index-card .sw-card__head { align-items: center; gap: var(--sw-sp-2); }
-.index-card .sw-card__head > span:first-child {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: var(--sw-radius-pill);
-  background: var(--sw-primary-soft);
-  color: var(--sw-primary-ink);
-  font-size: var(--sw-fs-xs);
-  font-weight: 700;
-  letter-spacing: .02em;
-  line-height: 1.4;
-}
-.index-card .sw-card__head > span:first-child:empty { display: none; }
+/* Thẻ Chuyên mục + Thư mục trên thẻ bài trang chủ (v1.3.5) */
+.index-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: var(--sw-sp-3); }
+.index-tag { display: inline-flex; align-items: center; font-size: var(--sw-fs-xs); font-weight: 700; line-height: 1.4; white-space: nowrap; }
+/* Chuyên mục: nền tím nhạt, bo tròn */
+.index-tag--cat { padding: 3px 10px; border-radius: var(--sw-radius-pill); background: var(--sw-primary-soft); color: var(--sw-primary-ink); }
+/* Thư mục (loại nội dung): nền tím đậm, chữ cyan in hoa, bo góc nhỏ — cùng tông với phần đầu trang */
+.index-tag--folder { padding: 3px 8px; border-radius: var(--sw-radius-sm); background: var(--sw-ink-800); color: var(--sw-cyan); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
 
 /* Căn đều 2 bên (v1.3.3) — điện thoại trả về căn trái */
 .hero-lede,
