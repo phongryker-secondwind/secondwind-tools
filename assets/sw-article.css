@@ -119,3 +119,6 @@
   .article-wrap p,
   .article-wrap li { text-align: left; }
 }
+
+/* Khung CTA luôn căn giữa, không bị quy tắc căn đều 2 bên ghi đè (v1.3.6) */
+.article-wrap .cta-card p { text-align: center; }
