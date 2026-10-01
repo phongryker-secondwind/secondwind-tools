@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quy trình tuyển dụng (lưu đồ) | Second Wind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== secondwind-ui.css (nhúng trực tiếp để mở file độc lập không lỗi) ===== */
+/* ==========================================================================
+   SECOND WIND — Bộ CSS giao diện dùng chung
+   Phiên bản 1.0 · dựng lại theo tài liệu "Hướng dẫn sử dụng bộ CSS Second Wind"
+   ========================================================================== */
+
+:root {
+  /* Màu thương hiệu */
+  --sw-primary: #7C4DFF;
+  --sw-primary-soft: #F1EDFF;
+  --sw-primary-ink: #3D1F96;
+  --sw-cyan: #2DD4E0;
+
+  /* Thang tím đậm (nền tối) */
+  --sw-ink-900: #120E33;
+  --sw-ink-800: #1A1246;
+  --sw-ink-700: #221957;
+  --sw-ink-600: #2E2470;
+  --sw-ink-500: #4C3FA0;
+  --sw-ink-300: #B8AEE8;
+  --sw-ink-200: #C9BDFF;
+
+  /* Nền sáng và chữ */
+  --sw-bg: #F7F6FB;
+  --sw-surface: #FFFFFF;
+  --sw-surface-alt: #F2F0F9;
+  --sw-border: #E4E1EF;
+  --sw-border-strong: #C9C4DE;
+  --sw-text: #1A1633;
+  --sw-text-2: #5A5478;
+  --sw-text-3: #8A85A3;
+
+  /* Màu trạng thái */
+  --sw-success: #0F7355;
+  --sw-success-soft: #E1F1EA;
+  --sw-warning: #A65C00;
+  --sw-warning-soft: #FBEEDC;
+  --sw-danger: #B3261E;
+  --sw-danger-soft: #FAEAE9;
+
+  /* Thang khoảng cách */
+  --sw-sp-1: 4px;
+  --sw-sp-2: 8px;
+  --sw-sp-3: 12px;
+  --sw-sp-4: 16px;
+  --sw-sp-5: 24px;
+  --sw-sp-6: 32px;
+  --sw-sp-7: 48px;
+  --sw-sp-8: 64px;
+
+  /* Bo góc */
+  --sw-radius-sm: 6px;
+  --sw-radius-md: 10px;
+  --sw-radius-lg: 14px;
+  --sw-radius-pill: 999px;
+
+  /* Cỡ chữ */
+  --sw-fs-xs: 12px;
+  --sw-fs-sm: 13px;
+  --sw-fs-md: 14px;
+  --sw-fs-lg: 16px;
+  --sw-fs-xl: 20px;
+  --sw-fs-2xl: 24px;
+  --sw-fs-3xl: 32px;
+
+  --sw-font: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Chế độ nền tối — ghi đè biến bề mặt và chữ, mọi component đọc biến nên tự đổi */
+.sw-dark {
+  --sw-bg: var(--sw-ink-800);
+  --sw-surface: var(--sw-ink-700);
+  --sw-surface-alt: var(--sw-ink-600);
+  --sw-border: var(--sw-ink-500);
+  --sw-border-strong: var(--sw-ink-500);
+  --sw-text: #FFFFFF;
+  --sw-text-2: var(--sw-ink-300);
+  --sw-text-3: var(--sw-ink-300);
+  --sw-primary-soft: var(--sw-ink-600);
+  --sw-primary-ink: var(--sw-ink-200);
+  background: var(--sw-bg);
+  color: var(--sw-text);
+}
+
+/* ===== Nền tảng ===== */
+.sw-body {
+  margin: 0;
+  font-family: var(--sw-font);
+  background: var(--sw-bg);
+  color: var(--sw-text);
+  font-size: var(--sw-fs-lg);
+  line-height: 1.55;
+  text-align: left;
+}
+.sw-body * { box-sizing: border-box; }
+
+.sw-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 var(--sw-sp-5);
+}
+
+.sw-navbar {
+  background: var(--sw-ink-900);
+  color: #FFFFFF;
+  padding: var(--sw-sp-4) 0;
+}
+.sw-navbar .sw-container { display: flex; align-items: center; justify-content: space-between; gap: var(--sw-sp-4); flex-wrap: wrap; }
+.sw-navbar-brand { font-weight: 700; font-size: var(--sw-fs-md); letter-spacing: 0.04em; color: #FFFFFF; }
+
+/* ===== Tiêu đề ===== */
+.sw-h1, .sw-h2, .sw-h3 { font-family: var(--sw-font); color: var(--sw-text); margin: 0; font-weight: 700; }
+.sw-h1 { font-size: var(--sw-fs-3xl); line-height: 1.2; }
+.sw-h2 { font-size: var(--sw-fs-2xl); line-height: 1.25; }
+.sw-h3 { font-size: var(--sw-fs-xl); line-height: 1.3; }
+.sw-h1--caps, .sw-h2--caps { text-transform: uppercase; letter-spacing: 0.02em; }
+
+.sw-text-2 { color: var(--sw-text-2); }
+.sw-text-3 { color: var(--sw-text-3); font-size: var(--sw-fs-xs); }
+.sw-link { color: var(--sw-primary); font-weight: 600; text-decoration: none; }
+.sw-link:hover { text-decoration: underline; }
+.sw-mono { font-variant-numeric: tabular-nums; }
+
+.sw-row { display: flex; align-items: center; gap: var(--sw-sp-2); flex-wrap: wrap; }
+.sw-stack { display: flex; flex-direction: column; gap: var(--sw-sp-2); }
+
+/* ===== Nút ===== */
+.sw-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sw-sp-1);
+  font-family: var(--sw-font);
+  font-size: var(--sw-fs-sm);
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: var(--sw-radius-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: opacity .15s ease, border-color .15s ease, background-color .15s ease;
+  text-decoration: none;
+  line-height: 1.2;
+}
+.sw-btn:disabled { opacity: .55; cursor: not-allowed; }
+.sw-btn--primary { background: var(--sw-primary); color: #FFFFFF; }
+.sw-btn--primary:hover:not(:disabled) { opacity: .9; }
+.sw-btn--secondary { background: transparent; color: var(--sw-text); border-color: var(--sw-border-strong); }
+.sw-btn--secondary:hover:not(:disabled) { background: var(--sw-surface-alt); }
+.sw-btn--ghost { background: transparent; color: var(--sw-primary); border-color: transparent; }
+.sw-btn--ghost:hover:not(:disabled) { background: var(--sw-primary-soft); }
+.sw-btn--sm { padding: 6px 14px; font-size: var(--sw-fs-xs); }
+.sw-btn--lg { padding: 13px 28px; font-size: var(--sw-fs-md); }
+.sw-btn--block { display: flex; width: 100%; }
+
+/* ===== Nhãn trạng thái ===== */
+.sw-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sw-sp-1);
+  font-size: var(--sw-fs-xs);
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--sw-radius-pill);
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.sw-badge--success { background: var(--sw-success-soft); color: var(--sw-success); }
+.sw-badge--warning { background: var(--sw-warning-soft); color: var(--sw-warning); }
+.sw-badge--danger  { background: var(--sw-danger-soft);  color: var(--sw-danger); }
+.sw-badge--outline { background: transparent; color: var(--sw-text-2); border-color: var(--sw-border-strong); }
+
+/* dùng làm chip lọc có thể bấm — kế thừa sw-badge, thêm trạng thái tương tác */
+.sw-badge.sw-filter { cursor: pointer; background: var(--sw-surface); border-color: var(--sw-border); color: var(--sw-text-2); }
+.sw-badge.sw-filter[data-active="true"] { border-color: currentColor; }
+.sw-badge.sw-filter.sw-badge--danger[data-active="true"]  { background: var(--sw-danger-soft); }
+.sw-badge.sw-filter.sw-badge--warning[data-active="true"] { background: var(--sw-warning-soft); }
+.sw-badge.sw-filter.sw-badge--success[data-active="true"] { background: var(--sw-success-soft); }
+.sw-badge.sw-filter.sw-badge--outline[data-active="true"] { background: var(--sw-surface-alt); color: var(--sw-text); }
+
+/* ===== Thẻ ===== */
+.sw-card {
+  background: var(--sw-surface);
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-lg);
+  padding: var(--sw-sp-4);
+}
+.sw-card--link { cursor: pointer; transition: border-color .15s ease; }
+.sw-card--link:hover { border-color: var(--sw-border-strong); }
+.sw-card__head { display: flex; align-items: center; justify-content: space-between; gap: var(--sw-sp-2); font-size: var(--sw-fs-xs); color: var(--sw-text-3); margin-bottom: var(--sw-sp-2); }
+.sw-card__title { font-size: var(--sw-fs-xl); font-weight: 700; margin: 0 0 var(--sw-sp-2); color: var(--sw-text); line-height: 1.35; }
+.sw-card__body { font-size: var(--sw-fs-sm); color: var(--sw-text-2); margin: 0; }
+.sw-card__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--sw-sp-2); margin-top: var(--sw-sp-3); padding-top: var(--sw-sp-3); border-top: 1px solid var(--sw-border); }
+
+/* ===== Lưới ===== */
+.sw-grid { display: grid; gap: var(--sw-sp-4); }
+.sw-grid--auto { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+
+/* ===== Biểu mẫu ===== */
+.sw-field { display: flex; flex-direction: column; gap: var(--sw-sp-1); margin-bottom: var(--sw-sp-4); }
+.sw-field__label { font-size: var(--sw-fs-sm); font-weight: 600; color: var(--sw-text); }
+.sw-field__hint { font-size: var(--sw-fs-xs); color: var(--sw-text-3); margin: 0; }
+.sw-field__error { font-size: var(--sw-fs-xs); color: var(--sw-danger); margin: 0; display: none; }
+.sw-field--invalid .sw-input { border-color: var(--sw-danger); }
+.sw-field--invalid .sw-field__error { display: block; }
+
+.sw-input, .sw-select {
+  font-family: var(--sw-font);
+  font-size: 16px; /* tránh Safari tự phóng to trên iOS */
+  color: var(--sw-text);
+  background: var(--sw-surface);
+  border: 1px solid var(--sw-border-strong);
+  border-radius: var(--sw-radius-md);
+  padding: 10px 14px;
+  min-height: 44px;
+}
+.sw-input:focus, .sw-select:focus { outline: 2px solid var(--sw-primary); outline-offset: 1px; }
+.sw-input--search { padding-left: 38px; background-repeat: no-repeat; background-position: 12px center; }
+
+/* ===== Bảng ===== */
+.sw-table-wrap { overflow-x: auto; border: 1px solid var(--sw-border); border-radius: var(--sw-radius-lg); background: var(--sw-surface); }
+.sw-table { width: 100%; border-collapse: collapse; font-size: var(--sw-fs-sm); }
+.sw-table th { background: var(--sw-surface-alt); color: var(--sw-text-2); text-align: left; font-weight: 600; padding: var(--sw-sp-3) var(--sw-sp-4); }
+.sw-table td { padding: var(--sw-sp-3) var(--sw-sp-4); border-top: 1px solid var(--sw-border); color: var(--sw-text); }
+.sw-td--num { text-align: right; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 768px) {
+  .sw-table--stack thead { display: none; }
+  .sw-table--stack, .sw-table--stack tbody, .sw-table--stack tr, .sw-table--stack td { display: block; width: 100%; }
+  .sw-table--stack tr { border-top: 1px solid var(--sw-border); padding: var(--sw-sp-3) var(--sw-sp-4); }
+  .sw-table--stack td { border-top: none; padding: var(--sw-sp-1) 0; display: flex; justify-content: space-between; gap: var(--sw-sp-3); }
+  .sw-table--stack td::before { content: attr(data-label); color: var(--sw-text-3); font-size: var(--sw-fs-xs); }
+}
+
+/* ===== Danh sách dạng dòng ===== */
+.sw-list { background: var(--sw-surface); border: 1px solid var(--sw-border); border-radius: var(--sw-radius-lg); overflow: hidden; }
+.sw-list__item { display: flex; align-items: center; gap: var(--sw-sp-3); padding: var(--sw-sp-3) var(--sw-sp-4); border-top: 1px solid var(--sw-border); }
+.sw-list__item:first-child { border-top: none; }
+.sw-list__flag { width: 4px; align-self: stretch; border-radius: 0; flex-shrink: 0; background: var(--sw-border-strong); }
+.sw-list__flag--danger { background: var(--sw-danger); }
+.sw-list__flag--warning { background: var(--sw-warning); }
+.sw-list__flag--success { background: var(--sw-success); }
+.sw-list__meta { font-size: var(--sw-fs-xs); color: var(--sw-text-3); margin: 2px 0 0; }
+.sw-list__item > div:not(.sw-list__flag) { flex: 1; min-width: 0; }
+
+/* ===== Thông báo ===== */
+.sw-alert { border-radius: var(--sw-radius-md); padding: var(--sw-sp-3) var(--sw-sp-4); font-size: var(--sw-fs-sm); display: flex; align-items: center; gap: var(--sw-sp-2); justify-content: space-between; }
+.sw-alert--success { background: var(--sw-success-soft); color: var(--sw-success); }
+.sw-alert--danger { background: var(--sw-danger-soft); color: var(--sw-danger); }
+.sw-alert__undo { font-weight: 600; text-decoration: underline; cursor: pointer; }
+
+.sw-note { border-left: 3px solid var(--sw-border-strong); border-radius: 0; padding: var(--sw-sp-2) var(--sw-sp-4); font-size: var(--sw-fs-xs); color: var(--sw-text-2); background: var(--sw-surface-alt); }
+.sw-note--warning { border-left-color: var(--sw-warning); }
+
+/* ===== Trạng thái tải / rỗng ===== */
+.sw-skeleton { background: linear-gradient(90deg, var(--sw-surface-alt) 25%, var(--sw-border) 37%, var(--sw-surface-alt) 63%); background-size: 400% 100%; animation: sw-skeleton-loading 1.4s ease infinite; border-radius: var(--sw-radius-sm); }
+@keyframes sw-skeleton-loading { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+.sw-spinner { width: 16px; height: 16px; border: 2px solid var(--sw-border-strong); border-top-color: var(--sw-primary); border-radius: 50%; animation: sw-spin .7s linear infinite; display: inline-block; }
+@keyframes sw-spin { to { transform: rotate(360deg); } }
+.sw-empty { text-align: center; padding: var(--sw-sp-7) var(--sw-sp-4); color: var(--sw-text-2); }
+.sw-empty h3 { font-size: var(--sw-fs-lg); color: var(--sw-text); margin: 0 0 var(--sw-sp-1); }
+
+/* ===== Đảm bảo bo góc đúng khi chỉ có viền 1 cạnh ===== */
+.sw-note, .sw-list__flag { border-radius: 0; }
+
+</style>
+<style>
+  .hero-lede { max-width: 62ch; font-size: var(--sw-fs-lg); margin-top: var(--sw-sp-3); }
+  .hero-stats { display: flex; gap: var(--sw-sp-7); flex-wrap: wrap; margin-top: var(--sw-sp-6); }
+  .hero-stat-num { font-size: var(--sw-fs-3xl); font-weight: 700; color: var(--sw-cyan); line-height: 1; }
+  .hero-stat-label { margin-top: var(--sw-sp-1); }
+  .assumption { margin-top: var(--sw-sp-6); margin-bottom: var(--sw-sp-6); }
+  main.sw-container { padding-top: var(--sw-sp-6); padding-bottom: var(--sw-sp-8); }
+
+  .filter-bar { position: sticky; top: 0; z-index: 20; background: var(--sw-bg); padding: var(--sw-sp-4) 0; border-bottom: 1px solid var(--sw-border); margin-bottom: var(--sw-sp-6); }
+
+  /* ===== Lưu đồ (desktop) ===== */
+  .flow-desktop { display: block; }
+  .lane-headers { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sw-sp-4); margin-bottom: var(--sw-sp-3); }
+  .lane-header { font-size: var(--sw-fs-xs); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--sw-text-3); text-align: center; padding-bottom: var(--sw-sp-2); border-bottom: 2px solid var(--sw-border-strong); }
+
+  .flow-canvas { position: relative; }
+  .flow-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sw-sp-5) var(--sw-sp-4); position: relative; z-index: 2; }
+  .flow-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; overflow: visible; }
+
+  .flow-box {
+    background: var(--sw-surface);
+    border: 1.5px solid var(--sw-border);
+    border-radius: var(--sw-radius-lg);
+    padding: var(--sw-sp-3) var(--sw-sp-4);
+    cursor: pointer;
+    transition: border-color .15s ease, box-shadow .15s ease, opacity .15s ease;
+    align-self: start;
+  }
+  .flow-box:hover { border-color: var(--sw-primary); }
+  .flow-box[data-selected="true"] { border-color: var(--sw-primary); box-shadow: 0 0 0 3px var(--sw-primary-soft); }
+  .flow-box[data-dim="true"] { opacity: .3; }
+  .flow-box-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--sw-primary); color: #fff; font-size: 11px; font-weight: 700; margin-bottom: var(--sw-sp-2); }
+  .flow-box-title { font-size: var(--sw-fs-sm); font-weight: 600; color: var(--sw-text); margin: 0; line-height: 1.35; }
+  .flow-box-depts { margin-top: var(--sw-sp-2); display: flex; gap: 4px; flex-wrap: wrap; }
+  .flow-box-depts .sw-badge { font-size: 10px; padding: 2px 8px; }
+
+  /* ===== Panel chi tiết ===== */
+  .detail-panel { margin-top: var(--sw-sp-6); }
+  .detail-empty { color: var(--sw-text-3); font-size: var(--sw-fs-sm); text-align: center; padding: var(--sw-sp-6) 0; }
+  .entry-table { background: var(--sw-surface-alt); border-radius: var(--sw-radius-md); padding: var(--sw-sp-3) var(--sw-sp-4); margin: var(--sw-sp-2) 0; }
+  .entry-row { display: flex; gap: var(--sw-sp-2); font-size: var(--sw-fs-sm); padding: 3px 0; }
+  .entry-side { font-weight: 700; color: var(--sw-primary-ink); width: 34px; flex-shrink: 0; }
+  .entry-content { color: var(--sw-text); }
+  .step-desc { font-size: var(--sw-fs-sm); color: var(--sw-text-2); margin: 0 0 var(--sw-sp-2); }
+  .step-list { margin: 0 0 var(--sw-sp-2); padding-left: 18px; font-size: var(--sw-fs-sm); color: var(--sw-text-2); }
+  .step-list li { margin-bottom: var(--sw-sp-1); }
+  .law-note { margin: var(--sw-sp-2) 0; }
+  .law-label { font-weight: 700; margin-right: 4px; }
+
+  /* ===== Lưu đồ (mobile fallback) ===== */
+  .flow-mobile { display: none; }
+  .m-step { display: flex; gap: var(--sw-sp-3); }
+  .m-marker { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 30px; }
+  .m-circle { width: 28px; height: 28px; border-radius: 50%; background: var(--sw-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+  .m-line { flex: 1; width: 2px; background: var(--sw-border); margin-top: 4px; min-height: 18px; }
+  .m-step:last-child .m-line { display: none; }
+  .m-content { flex: 1; padding-bottom: var(--sw-sp-5); }
+  .m-title { font-size: var(--sw-fs-md); font-weight: 700; margin: 0 0 var(--sw-sp-1); }
+  .m-depts { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: var(--sw-sp-2); }
+
+  @media (max-width: 900px) {
+    .flow-desktop { display: none; }
+    .flow-mobile { display: block; }
+  }
+  /* Theo css_sw_article (SW CMS): breadcrumb đầu trang + khối Xem thêm */
+  .hero-tag { display:inline-flex; align-items:center; gap:6px; font-size:var(--sw-fs-xs); font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--sw-cyan); margin-bottom:var(--sw-sp-3); }
+  .hero-meta { margin-top:var(--sw-sp-5); font-size:var(--sw-fs-xs); color:var(--sw-ink-300); }
+  .breadcrumb { flex-wrap: wrap; }
+  .breadcrumb a { color: inherit; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb .sep { opacity: .6; }
+  .related { margin-top: var(--sw-sp-6); padding-top: var(--sw-sp-5); border-top: 1px solid var(--sw-border); }
+  .related a { display: block; margin-bottom: var(--sw-sp-2); }
+  .related .back-link { margin-top: var(--sw-sp-3); }
+</style>
+<!-- SW-CMS meta: sinh tự động, không sửa tay -->
+<meta name="description" content="Lưu đồ phối hợp giữa Quản lý bộ phận, Ban giám đốc, Nhân sự và Ứng viên — từ lúc phát sinh nhu cầu tuyển người đến khi ký hợp đồng lao động chính thức, kèm các mốc pháp lý cần nhớ ở từng bước.">
+<link rel="canonical" href="https://huongdan.secondwind.vn/quy-trinh/quy-trinh-tuyen-dung-luu-do/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="Second Wind">
+<meta property="og:title" content="Quy trình tuyển dụng (lưu đồ)">
+<meta property="og:description" content="Lưu đồ phối hợp giữa Quản lý bộ phận, Ban giám đốc, Nhân sự và Ứng viên — từ lúc phát sinh nhu cầu tuyển người đến khi ký hợp đồng lao động chính thức, kèm các mốc pháp lý cần nhớ ở từng bước.">
+<meta property="og:url" content="https://huongdan.secondwind.vn/quy-trinh/quy-trinh-tuyen-dung-luu-do/">
+<meta property="article:modified_time" content="2026-10-01">
+</head>
+<body class="sw-body">
+
+
+<section class="sw-dark">
+  <div class="sw-container" style="padding-top:var(--sw-sp-8);padding-bottom:var(--sw-sp-8);">
+    <nav class="hero-tag breadcrumb" aria-label="Breadcrumb"><a href="https://huongdan.secondwind.vn/">Kho công cụ</a><span class="sep" aria-hidden="true">›</span><span>Quy trình</span><span class="sep" aria-hidden="true">›</span><span>Tuyển dụng</span></nav>
+    <h1 class="sw-h1 sw-h1--caps">Quy trình tuyển dụng nhân sự</h1>
+    <p class="sw-text-2 hero-lede">Lưu đồ phối hợp giữa Quản lý bộ phận, Ban giám đốc, Nhân sự và Ứng viên — từ lúc phát sinh nhu cầu tuyển người đến khi ký hợp đồng lao động chính thức, kèm các mốc pháp lý cần nhớ ở từng bước.</p>
+    <p class="hero-meta">Căn cứ 283/2026/NĐ-CP · Cập nhật 30/09/2026</p>
+    <div class="hero-stats">
+      <div><div class="hero-stat-num">10</div><div class="hero-stat-label sw-text-3">bước xử lý</div></div>
+      <div><div class="hero-stat-num">4</div><div class="hero-stat-label sw-text-3">bên phối hợp</div></div>
+      <div><div class="hero-stat-num">4</div><div class="hero-stat-label sw-text-3">rủi ro cần lưu ý</div></div>
+    </div>
+  </div>
+</section>
+
+<main class="sw-container">
+
+  <div class="sw-note assumption">
+    <strong class="sw-text-2">Giả định khi dựng quy trình:</strong> doanh nghiệp nhỏ có người phụ trách nhân sự (có thể kiêm nhiệm), tự tuyển trực tiếp, không qua đơn vị cung ứng hay cho thuê lại lao động, tuyển vị trí nhân viên theo hợp đồng lao động có thử việc. Nếu thực tế khác, cần điều chỉnh lại các bước cho phù hợp.
+  </div>
+
+  <div class="filter-bar">
+    <div class="sw-row">
+      <span class="sw-field__label" style="margin:0;">Xem theo bộ phận</span>
+      <div class="sw-row" id="deptChips"></div>
+    </div>
+  </div>
+
+  <!-- ===== Lưu đồ dạng bơi làn — desktop ===== -->
+  <div class="flow-desktop">
+    <div class="lane-headers" id="laneHeaders"></div>
+    <div class="flow-canvas">
+      <svg class="flow-svg" id="flowSvg"></svg>
+      <div class="flow-grid" id="flowGrid"></div>
+    </div>
+  </div>
+
+  <!-- ===== Lưu đồ dạng timeline — mobile ===== -->
+  <div class="flow-mobile" id="flowMobile"></div>
+
+  <div class="sw-card detail-panel" id="detailPanel">
+    <div class="detail-empty">Bấm vào một bước trong lưu đồ để xem chi tiết cách làm và lưu ý pháp lý liên quan.</div>
+  </div>
+
+  <section style="margin-top:var(--sw-sp-7);">
+    <h2 class="sw-h2">Rủi ro cần lưu ý</h2>
+    <div class="sw-stack" style="gap:var(--sw-sp-3);margin-top:var(--sw-sp-3);">
+      <div class="sw-note sw-note--warning">Thu "phí hồ sơ", "phí xét tuyển" của ứng viên — dù số tiền nhỏ — là hành vi bị cấm, phạt 1–3 triệu đồng và phải trả lại tiền.</div>
+      <div class="sw-note sw-note--warning">Giữ bản chính giấy tờ hoặc bắt đặt cọc "để giữ chân" nhân viên — khung phạt 20–25 triệu đồng, nặng nhất trong toàn quy trình.</div>
+      <div class="sw-note sw-note--warning">Không theo dõi mốc hết thử việc — người lao động vẫn đi làm nhưng chưa được thông báo kết quả, chưa ký hợp đồng chính thức.</div>
+      <div class="sw-note sw-note--warning">Tuyển theo cảm nhận người phỏng vấn, không có tiêu chí và thang điểm chung — dễ tuyển sai người, khó giải thích khi ứng viên thắc mắc.</div>
+    </div>
+  </section>
+
+  <div class="related"><p class="sw-text-3" style="margin-bottom:var(--sw-sp-2);">Xem thêm</p><a class="sw-link" href="https://huongdan.secondwind.vn/quy-trinh/quy-trinh-luong-ke-toan/">→ Quy trình ghi nhận chi phí nhân sự vào chi phí kế toán</a><a class="sw-link" href="https://huongdan.secondwind.vn/huong-dan/tuyen-dung-quan-ly-lao-dong-sai-luat/">→ Đăng tin tuyển dụng, quản lý hồ sơ lao động sai luật — phạt đến 75 triệu</a><a class="sw-link" href="https://huongdan.secondwind.vn/huong-dan/5-loi-hop-dong-lao-dong/">→ 5 lỗi hợp đồng lao động khiến SME dễ bị phạt nhất</a><a class="sw-link back-link" href="https://huongdan.secondwind.vn/">← Về Kho công cụ</a></div>
+
+</main>
+
+<footer style="border-top:1px solid var(--sw-border);">
+  <div class="sw-container" style="padding-top:var(--sw-sp-5);padding-bottom:var(--sw-sp-6);">
+    <p class="sw-text-3" style="max-width:70ch;">Nội dung mang tính tham khảo, không thay thế văn bản pháp luật gốc hoặc tư vấn pháp lý cụ thể cho từng trường hợp.</p>
+    <p class="sw-text-3">Quy trình tham khảo, cần điều chỉnh theo thực tế vận hành của từng doanh nghiệp. Mức phạt theo Nghị định 283/2026/NĐ-CP, áp dụng với cá nhân; tổ chức vi phạm có thể bị phạt gấp 2 lần.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const LANES = ['Quản lý bộ phận', 'Ban giám đốc', 'Nhân sự', 'Ứng viên'];
+
+  // lane: cột chính (0-3) ; span: số cột chiếm (mặc định 1) ; law: lưu ý pháp lý và mức phạt
+  const STEPS = [
+    { id:1, title:'Đề xuất nhu cầu tuyển dụng', depts:['Quản lý bộ phận'], lane:0, span:1,
+      desc:'Nêu rõ lý do cần người (vị trí mới hay thay người nghỉ), số lượng, thời điểm cần có người và mô tả sơ bộ công việc. Trước khi đề xuất, cân nhắc có thể phân lại việc trong bộ phận hay không.',
+      list:['Kết quả: Phiếu đề xuất tuyển dụng'] },
+    { id:2, title:'Phê duyệt tuyển dụng', depts:['Ban giám đốc'], lane:1, span:1,
+      desc:'Xem xét nhu cầu so với kế hoạch nhân sự và ngân sách. Duyệt số lượng, khung lương, loại hợp đồng và thời gian thử việc dự kiến.',
+      list:['Kết quả: Đề xuất đã duyệt, kèm khung lương'] },
+    { id:3, title:'Viết mô tả công việc & đăng tuyển', depts:['Nhân sự','Quản lý bộ phận'], lane:2, span:1,
+      desc:'Nhân sự cùng quản lý bộ phận chốt mô tả công việc, rồi đăng lên các kênh phù hợp.',
+      list:['Mô tả công việc gồm: nhiệm vụ chính, tiêu chí bắt buộc, tiêu chí ưu tiên, nơi làm việc, giờ làm, khung lương','Kênh đăng: giới thiệu nội bộ, trang tuyển dụng, mạng xã hội, trung tâm dịch vụ việc làm','Chuẩn bị luôn bộ câu hỏi phỏng vấn và thang điểm chung cho vị trí'],
+      law:['Tiêu chí tuyển dụng phân biệt đối xử, không xuất phát từ yêu cầu công việc: phạt 5.000.000 – 10.000.000 đồng'] },
+    { id:4, title:'Nhận & sàng lọc hồ sơ', depts:['Nhân sự'], lane:2, span:1,
+      desc:'Nhận hồ sơ về một đầu mối duy nhất, ghi vào danh sách theo dõi ứng viên, lọc theo tiêu chí bắt buộc đã chốt ở bước 3.',
+      list:['Hồ sơ ứng viên là dữ liệu cá nhân — chỉ dùng cho mục đích tuyển dụng, hạn chế chia sẻ ngoài người tham gia tuyển','Kết quả: Danh sách ứng viên đạt vòng hồ sơ'],
+      law:['Thu "phí hồ sơ", "phí xét tuyển" hoặc bất kỳ khoản tiền nào của ứng viên: phạt 1.000.000 – 3.000.000 đồng, buộc trả lại tiền đã thu'] },
+    { id:5, title:'Phỏng vấn sơ bộ', depts:['Nhân sự','Ứng viên'], lane:2, span:2,
+      desc:'Gọi điện 10–15 phút để kiểm tra các điều kiện cơ bản trước khi mời phỏng vấn chính thức.',
+      list:['Kiểm tra: mức lương mong muốn, thời gian có thể đi làm, địa điểm làm việc','Hẹn lịch phỏng vấn chuyên môn với ứng viên đạt'] },
+    { id:6, title:'Phỏng vấn chuyên môn', depts:['Quản lý bộ phận','Ứng viên'], lane:0, span:1,
+      desc:'Quản lý trực tiếp phỏng vấn theo bộ câu hỏi chung, chấm điểm theo thang điểm đã chốt để so sánh công bằng giữa các ứng viên.',
+      list:['Có thể kèm bài kiểm tra thực hành ngắn với vị trí cần kỹ năng','Hỏi tham chiếu người quản lý cũ khi ứng viên đồng ý'] },
+    { id:7, title:'Chốt ứng viên & duyệt mức lương', depts:['Quản lý bộ phận','Ban giám đốc'], lane:0, span:2,
+      desc:'Quản lý bộ phận đề xuất ứng viên phù hợp nhất. Ban giám đốc duyệt lại nếu mức lương hoặc ngày bắt đầu nằm ngoài khung đã duyệt ở bước 2.',
+      list:['Thông báo kết quả cho cả ứng viên không đạt'] },
+    { id:8, title:'Gửi thư mời & ký hợp đồng thử việc', depts:['Nhân sự','Ứng viên'], lane:2, span:2,
+      desc:'Gửi thư mời nhận việc bằng văn bản: vị trí, mức lương, ngày bắt đầu, thời gian thử việc, hạn phản hồi. Khi ứng viên nhận lời, ký hợp đồng thử việc hoặc ghi nội dung thử việc trong hợp đồng lao động.',
+      list:['Nhận hồ sơ nhân sự bằng bản sao, không giữ bản chính','Người từ đủ 15 đến dưới 18 tuổi: cần văn bản đồng ý của người đại diện theo pháp luật','Nhập thông tin vào sổ quản lý lao động từ ngày bắt đầu làm việc'],
+      law:['Giữ bản chính giấy tờ tùy thân, văn bằng hoặc buộc đặt cọc tiền, tài sản: phạt 20.000.000 – 25.000.000 đồng','Ký với người dưới 18 tuổi không có văn bản đồng ý của người đại diện: phạt 20.000.000 – 25.000.000 đồng','Không nhập đủ thông tin vào sổ quản lý lao động: phạt 1.000.000 – 3.000.000 đồng'] },
+    { id:9, title:'Hội nhập & theo dõi thử việc', depts:['Quản lý bộ phận','Nhân sự'], lane:0, span:1,
+      desc:'Ngày đầu tiên: phổ biến nội quy lao động, an toàn lao động và giao người hướng dẫn. Quản lý giao mục tiêu thử việc rõ ràng và đánh giá giữa kỳ.',
+      list:['Đặt lịch nhắc trước ngày kết thúc thử việc 3–5 ngày','Thời gian thử việc tối đa: 180 ngày (người quản lý doanh nghiệp), 60 ngày (trình độ cao đẳng trở lên), 30 ngày (trung cấp, công nhân kỹ thuật, nhân viên nghiệp vụ), 6 ngày làm việc (công việc khác)'],
+      law:['Thử việc quá 01 lần, quá thời gian cho phép hoặc trả lương thử việc dưới 85%: phạt 2.000.000 – 5.000.000 đồng, buộc trả đủ lương'] },
+    { id:10, title:'Đánh giá & ký hợp đồng chính thức', depts:['Quản lý bộ phận','Ban giám đốc','Nhân sự'], lane:0, span:3,
+      desc:'Khi hết thời gian thử việc, quản lý đánh giá, Nhân sự thông báo kết quả cho người lao động. Đạt: ký hợp đồng lao động ngay. Không đạt: thông báo và thanh toán đủ lương thử việc.',
+      list:['Đăng ký tham gia bảo hiểm xã hội cho người thuộc diện bắt buộc theo đúng thời hạn','Kết quả: Hợp đồng lao động đã ký, hồ sơ nhân sự hoàn chỉnh'],
+      law:['Không thông báo kết quả thử việc: phạt 500.000 – 1.000.000 đồng','Không ký hợp đồng khi thử việc đạt: phạt 2.000.000 – 5.000.000 đồng, buộc giao kết hợp đồng'] }
+  ];
+
+  /* ---------- bộ lọc bộ phận ---------- */
+  const deptChipsEl = document.getElementById('deptChips');
+  let activeDepts = new Set();
+  LANES.forEach(d => {
+    const chip = document.createElement('span');
+    chip.className = 'sw-badge sw-filter sw-badge--outline';
+    chip.textContent = d;
+    chip.dataset.active = 'false';
+    chip.addEventListener('click', () => {
+      if(activeDepts.has(d)){ activeDepts.delete(d); chip.dataset.active='false'; }
+      else { activeDepts.add(d); chip.dataset.active='true'; }
+      applyFilter();
+    });
+    deptChipsEl.appendChild(chip);
+  });
+
+  function applyFilter(){
+    document.querySelectorAll('[data-stepbox]').forEach(el => {
+      const id = parseInt(el.dataset.stepbox, 10);
+      const step = STEPS.find(s => s.id === id);
+      const dim = activeDepts.size > 0 && !step.depts.some(d => activeDepts.has(d));
+      el.dataset.dim = dim ? 'true' : 'false';
+    });
+  }
+
+  /* ---------- lưu đồ desktop ---------- */
+  const laneHeadersEl = document.getElementById('laneHeaders');
+  LANES.forEach(l => {
+    const h = document.createElement('div');
+    h.className = 'lane-header';
+    h.textContent = l;
+    laneHeadersEl.appendChild(h);
+  });
+
+  const flowGrid = document.getElementById('flowGrid');
+  const flowSvg = document.getElementById('flowSvg');
+
+  STEPS.forEach(step => {
+    const box = document.createElement('div');
+    box.className = 'flow-box';
+    box.dataset.stepbox = step.id;
+    box.dataset.selected = 'false';
+    box.dataset.dim = 'false';
+    box.style.gridColumn = (step.lane + 1) + ' / span ' + step.span;
+    box.style.gridRow = step.id;
+    box.innerHTML = `
+      <div class="flow-box-num">${step.id}</div>
+      <p class="flow-box-title">${step.title}</p>
+      <div class="flow-box-depts">${step.depts.map(d => `<span class="sw-badge sw-badge--outline">${d}</span>`).join('')}</div>
+    `;
+    box.addEventListener('click', () => selectStep(step.id));
+    flowGrid.appendChild(box);
+  });
+
+  function drawArrows(){
+    const canvasRect = document.querySelector('.flow-canvas').getBoundingClientRect();
+    flowSvg.innerHTML = `
+      <defs>
+        <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <polygon points="0 0, 7 3, 0 6" fill="var(--sw-border-strong)"></polygon>
+        </marker>
+      </defs>`;
+    for(let i = 0; i < STEPS.length - 1; i++){
+      const a = document.querySelector(`.flow-box[data-stepbox="${STEPS[i].id}"]`).getBoundingClientRect();
+      const b = document.querySelector(`.flow-box[data-stepbox="${STEPS[i+1].id}"]`).getBoundingClientRect();
+      const x1 = a.left + a.width/2 - canvasRect.left;
+      const y1 = a.bottom - canvasRect.top;
+      const x2 = b.left + b.width/2 - canvasRect.left;
+      const y2 = b.top - canvasRect.top;
+      const midY = (y1 + y2) / 2;
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      const d = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
+      path.setAttribute('d', d);
+      path.setAttribute('stroke', 'var(--sw-border-strong)');
+      path.setAttribute('stroke-width', '1.5');
+      path.setAttribute('fill', 'none');
+      path.setAttribute('marker-end', 'url(#arrowhead)');
+      flowSvg.appendChild(path);
+    }
+  }
+
+  /* ---------- lưu đồ mobile (timeline dọc) ---------- */
+  const flowMobile = document.getElementById('flowMobile');
+  flowMobile.innerHTML = STEPS.map(step => `
+    <div class="m-step" data-stepbox="${step.id}" data-dim="false">
+      <div class="m-marker"><div class="m-circle">${step.id}</div><div class="m-line"></div></div>
+      <div class="m-content" data-stepclick="${step.id}">
+        <h3 class="m-title">${step.title}</h3>
+        <div class="m-depts">${step.depts.map(d => `<span class="sw-badge sw-badge--outline">${d}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+  flowMobile.querySelectorAll('[data-stepclick]').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => selectStep(parseInt(el.dataset.stepclick, 10)));
+  });
+
+  /* ---------- panel chi tiết ---------- */
+  const detailPanel = document.getElementById('detailPanel');
+  function entryTable(entries){
+    return '<div class="entry-table">' + entries.map(e =>
+      `<div class="entry-row"><span class="entry-side">${e[0]}</span><span class="entry-content sw-mono">${e[1]}</span></div>`
+    ).join('') + '</div>';
+  }
+
+  function selectStep(id){
+    const step = STEPS.find(s => s.id === id);
+    document.querySelectorAll('[data-stepbox]').forEach(el => {
+      el.dataset.selected = (parseInt(el.dataset.stepbox,10) === id) ? 'true' : 'false';
+    });
+    let body = `<div class="flow-box-num" style="margin-bottom:var(--sw-sp-2);">${step.id}</div>
+                <h3 class="sw-h3" style="margin-bottom:var(--sw-sp-1);">${step.title}</h3>
+                <div class="flow-box-depts" style="margin-bottom:var(--sw-sp-3);">${step.depts.map(d => `<span class="sw-badge sw-badge--outline">${d}</span>`).join('')}</div>`;
+    if(step.desc) body += `<p class="step-desc">${step.desc}</p>`;
+    if(step.entries) body += entryTable(step.entries);
+    if(step.desc2) body += `<p class="step-desc">${step.desc2}</p>`;
+    if(step.entries2) body += entryTable(step.entries2);
+    if(step.list) body += '<ul class="step-list">' + step.list.map(l => `<li>${l}</li>`).join('') + '</ul>';
+    if(step.law) body += step.law.map(l => `<div class="sw-note sw-note--warning law-note"><span class="law-label">[PHẠT]</span>${l}</div>`).join('');
+    detailPanel.innerHTML = body;
+  }
+
+  window.addEventListener('resize', () => { if(window.innerWidth > 900) drawArrows(); });
+  drawArrows();
+  selectStep(1);
+})();
+</script>
+</body>
+</html>
