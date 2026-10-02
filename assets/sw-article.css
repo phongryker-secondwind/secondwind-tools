@@ -122,3 +122,34 @@
 
 /* Khung CTA luôn căn giữa, không bị quy tắc căn đều 2 bên ghi đè (v1.3.6) */
 .article-wrap .cta-card p { text-align: center; }
+
+/* ---------- v1.5: Thanh điều hướng trên cùng ---------- */
+.sw-nav { position: sticky; top: 0; z-index: 30; background: var(--sw-ink-900); border-bottom: 1px solid var(--sw-ink-600); }
+.sw-nav__inner { max-width: 1080px; margin: 0 auto; padding: 0 var(--sw-sp-5); height: 56px; display: flex; align-items: center; justify-content: space-between; gap: var(--sw-sp-3); }
+.sw-nav__brand { display: inline-flex; align-items: center; gap: 10px; min-width: 0; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: var(--sw-fs-md); }
+.sw-nav__logo { height: 36px; width: auto; display: block; flex: none; }
+.sw-nav__name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sw-nav__links { display: flex; align-items: center; gap: var(--sw-sp-2); flex: none; }
+.sw-nav__btn { display: inline-flex; align-items: center; gap: 4px; padding: 7px 14px; border-radius: var(--sw-radius-pill); font-size: var(--sw-fs-sm); font-weight: 600; line-height: 1.2; text-decoration: none; white-space: nowrap; border: 1px solid transparent; transition: background .15s ease, border-color .15s ease; }
+.sw-nav__btn--ghost { color: var(--sw-ink-200); border-color: var(--sw-ink-500); }
+.sw-nav__btn--ghost:hover { background: var(--sw-ink-700); color: #FFFFFF; }
+.sw-nav__btn--primary { background: var(--sw-primary); color: #FFFFFF; }
+.sw-nav__btn--primary:hover { opacity: .9; }
+.sw-nav__btn:focus-visible, .sw-nav__brand:focus-visible { outline: 2px solid var(--sw-cyan); outline-offset: 2px; }
+/* Bộ lọc trang chủ dính ngay dưới thanh điều hướng */
+.sw-nav ~ .index-wrap .index-controls { top: 56px; }
+@media (max-width: 480px) {
+  .sw-nav__inner { padding: 0 var(--sw-sp-4); height: 52px; }
+  .sw-nav__logo { height: 30px; }
+  .sw-nav__name { font-size: var(--sw-fs-sm); }
+  .sw-nav__btn { padding: 6px 10px; font-size: var(--sw-fs-xs); }
+  /* Màn hẹp: có logo thì ẩn chữ để không bị cắt "Tiệm Bảo bối …" */
+  .sw-nav__logo + .sw-nav__name { display: none; }
+}
+
+/* ---------- v1.5: Nút trên thẻ bài (trang chủ) ---------- */
+.index-card { display: flex; flex-direction: column; }
+.index-card__foot { margin-top: auto; padding-top: var(--sw-sp-4); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--sw-sp-2); }
+.index-card__foot .index-risk { margin-top: 0; }
+.index-card__btn { margin-left: auto; pointer-events: none; transition: background .15s ease, color .15s ease, border-color .15s ease; }
+.index-card:hover .index-card__btn, .index-card:focus-visible .index-card__btn { background: var(--sw-primary); border-color: var(--sw-primary); color: #FFFFFF; }
