@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<!--
+==========================================================================
+ SECOND WIND · KHUNG CHUẨN TRANG QUY TRÌNH (nguồn HTML) · bản 02/10/2026
+ Đồng bộ với website v1.5.0. Các Cowork soạn quy trình khác dùng đúng khung này.
+ 1. CSS: KHÔNG nhúng lại bộ CSS chung. Chỉ link 2 file của website (bên dưới)
+    => website đổi giao diện thì mọi trang quy trình đổi theo.
+    CSS riêng của từng công cụ để trong 1 thẻ <style> sau 2 link đó.
+ 2. Thứ tự khung trang: thanh điều hướng (SW:NAV) => hero (.sw-dark) => <main> => chân trang (SW:FOOTER).
+ 3. Hero giống trang bài: breadcrumb .hero-tag · h1 .sw-h1.hero-title (không in hoa)
+    · .hero-lede · .hero-meta "Căn cứ … · Cập nhật dd/mm/yyyy".
+ 4. Giữ nguyên các dấu chú thích SW:CSS / SW:NAV / SW:FOOTER (START, END),
+    sau này hệ thống có thể tự thay phần giữa 2 dấu.
+ 5. <title>Quy trình quản lý lao động | Second Wind</title>
+<!-- SW:CSS:START -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://huongdan.secondwind.vn/assets/secondwind-ui.css">
+<link rel="stylesheet" href="https://huongdan.secondwind.vn/assets/sw-article.css">
+<!-- SW:CSS:END -->
+<style>
+  /* ===== CSS riêng của công cụ "Quy trình quản lý nhân sự" ===== */
+  main.qt-wrap { padding-top: var(--sw-sp-6); padding-bottom: var(--sw-sp-7); }
+  .hero-stats { display: flex; gap: var(--sw-sp-6); margin-top: var(--sw-sp-5); flex-wrap: wrap; }
+  .hero-stat-num { font-size: var(--sw-fs-3xl); font-weight: 700; color: var(--sw-cyan); line-height: 1.1; }
+  .sw-badge--info { background: var(--sw-primary-soft); color: var(--sw-primary-ink); }
+  .sw-badge--muted { background: var(--sw-surface-alt); color: var(--sw-text-3); border-color: var(--sw-border); }
+  .qt-intro p { margin: 0; font-size: var(--sw-fs-sm); }
+
+  /* Chọn giai đoạn */
+  .phase-bar { display: flex; flex-wrap: wrap; gap: var(--sw-sp-2); margin-top: var(--sw-sp-3); }
+  .phase-chip { display: inline-flex; align-items: center; gap: 8px; font-family: var(--sw-font); font-size: var(--sw-fs-sm); font-weight: 600; padding: 8px 14px; min-height: 40px; border-radius: var(--sw-radius-pill); border: 1px solid var(--sw-border-strong); background: var(--sw-surface); color: var(--sw-text-2); cursor: pointer; text-decoration: none; }
+  .phase-chip:hover { border-color: var(--sw-primary); color: var(--sw-text); }
+  .phase-chip[aria-pressed="true"], .phase-chip[aria-current="page"] { background: var(--sw-primary); border-color: var(--sw-primary); color: #FFFFFF; }
+  .phase-chip__no { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--sw-surface-alt); color: var(--sw-primary-ink); font-size: var(--sw-fs-xs); }
+  .phase-chip[aria-pressed="true"] .phase-chip__no, .phase-chip[aria-current="page"] .phase-chip__no { background: rgba(255,255,255,.2); color: #FFFFFF; }
+  .tools-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sw-sp-3); margin-top: var(--sw-sp-4); }
+  .toggle { display: inline-flex; align-items: center; gap: 8px; font-size: var(--sw-fs-sm); color: var(--sw-text-2); cursor: pointer; }
+  .toggle input { width: 18px; height: 18px; accent-color: var(--sw-warning); }
+  .progress-wrap { flex: 1 1 260px; }
+  .progress-wrap p { margin: 0 0 var(--sw-sp-2); font-size: var(--sw-fs-sm); color: var(--sw-text-2); }
+  .progress { height: 8px; background: var(--sw-surface-alt); border-radius: var(--sw-radius-pill); overflow: hidden; }
+  .progress > div { height: 100%; width: 0; background: var(--sw-primary); transition: width .2s ease; }
+
+  /* Danh sách bước + chi tiết */
+  .layout { display: grid; grid-template-columns: 340px 1fr; gap: var(--sw-sp-5); margin-top: var(--sw-sp-5); align-items: start; }
+  @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+  .steps { display: flex; flex-direction: column; gap: var(--sw-sp-2); }
+  .steps-group { font-size: var(--sw-fs-xs); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--sw-primary); margin: var(--sw-sp-3) 0 2px; }
+  .steps-group:first-child { margin-top: 0; }
+  .step { display: flex; gap: var(--sw-sp-3); align-items: flex-start; width: 100%; text-align: left; font-family: var(--sw-font); background: var(--sw-surface); border: 1px solid var(--sw-border); border-radius: var(--sw-radius-md); padding: var(--sw-sp-3) 14px; cursor: pointer; color: var(--sw-text); }
+  .step:hover { border-color: var(--sw-border-strong); }
+  .step[aria-current="true"] { border-color: var(--sw-primary); box-shadow: 0 0 0 1px var(--sw-primary); }
+  .step-num { flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--sw-primary-soft); color: var(--sw-primary-ink); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--sw-fs-sm); }
+  .step--done .step-num { background: var(--sw-success); color: #FFFFFF; }
+  .step-body { flex: 1; min-width: 0; }
+  .step-title { font-weight: 600; font-size: var(--sw-fs-md); margin: 0; }
+  .step-meta { font-size: var(--sw-fs-xs); color: var(--sw-text-3); margin: 2px 0 0; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .flag-warn { display: inline-flex; font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: var(--sw-radius-pill); background: var(--sw-warning-soft); color: var(--sw-warning); }
+
+  .detail { position: sticky; top: 72px; scroll-margin-top: 72px; }
+  @media (max-width: 860px) { .detail { position: static; } }
+  .detail-head { display: flex; justify-content: space-between; gap: var(--sw-sp-2); flex-wrap: wrap; align-items: center; }
+  .detail-head p { margin: 0; }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--sw-sp-2); margin: var(--sw-sp-4) 0; }
+  .fact { background: var(--sw-surface-alt); border-radius: var(--sw-radius-md); padding: 10px 12px; }
+  .fact p { margin: 0; }
+  .fact .k { font-size: var(--sw-fs-xs); color: var(--sw-text-3); }
+  .fact .v { font-size: var(--sw-fs-sm); font-weight: 600; }
+  .fact .v + .v { margin-top: 4px; }
+  .sub-title { font-size: var(--sw-fs-sm); font-weight: 600; margin: var(--sw-sp-4) 0 var(--sw-sp-1); color: var(--sw-text-2); }
+  .check { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--sw-border); cursor: pointer; }
+  .check:first-of-type { border-top: 0; }
+  .check input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--sw-primary); flex-shrink: 0; cursor: pointer; }
+  .check p { margin: 0; font-size: var(--sw-fs-md); }
+  .check input:checked + p { color: var(--sw-text-3); text-decoration: line-through; }
+  .stack-notes { display: flex; flex-direction: column; gap: var(--sw-sp-2); }
+  .stack-notes .sw-note p { margin: 0; font-size: var(--sw-fs-sm); }
+  .warn-label { display: block; font-weight: 700; color: var(--sw-warning); margin-bottom: 2px; font-size: var(--sw-fs-xs); text-transform: uppercase; letter-spacing: .04em; }
+  .empty-line { margin: 0; font-size: var(--sw-fs-sm); color: var(--sw-text-3); }
+  .step-nav { display: flex; justify-content: space-between; gap: var(--sw-sp-2); margin-top: var(--sw-sp-5); }
+
+  /* Khối dưới */
+  section.block { margin-top: var(--sw-sp-7); }
+  section.block > p.sw-text-2 { margin: var(--sw-sp-2) 0 0; }
+  .doc-table { margin-top: var(--sw-sp-4); }
+  .doc-table td:first-child { white-space: nowrap; color: var(--sw-text-3); width: 1%; }
+  .doc-table td ul { margin: 0; padding-left: 18px; }
+  .doc-table td li { margin: 0 0 2px; }
+  .gloss { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--sw-sp-2); margin-top: var(--sw-sp-4); }
+  .gloss .fact .v { font-weight: 500; }
+  .phase-pager { display: flex; justify-content: space-between; gap: var(--sw-sp-3); flex-wrap: wrap; margin-top: var(--sw-sp-7); }
+  .qt-source { margin-top: var(--sw-sp-7); }
+  .qt-source p { margin: 0; }
+  footer p { margin: 0; }
+</style>
+<!-- SW-CMS meta: sinh tự động, không sửa tay -->
+<meta name="description" content="Toàn bộ vòng đời nhân sự trong 5 giai đoạn: tuyển dụng, tiếp nhận, quản lý hằng ngày, chế độ và nghỉ việc. Chọn giai đoạn, xem người thực hiện, hồ sơ cần có ở từng bước và đánh dấu việc đã chuẩn bị.">
+<link rel="canonical" href="https://huongdan.secondwind.vn/quy-trinh/quy-trinh-quan-ly-lao-dong/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="Second Wind">
+<meta property="og:title" content="Quy trình quản lý lao động">
+<meta property="og:description" content="Toàn bộ vòng đời nhân sự trong 5 giai đoạn: tuyển dụng, tiếp nhận, quản lý hằng ngày, chế độ và nghỉ việc. Chọn giai đoạn, xem người thực hiện, hồ sơ cần có ở từng bước và đánh dấu việc đã chuẩn bị.">
+<meta property="og:url" content="https://huongdan.secondwind.vn/quy-trinh/quy-trinh-quan-ly-lao-dong/">
+<meta property="article:modified_time" content="2026-10-04">
+</head>
+<body class="sw-body">
+
+<!-- SW:NAV:START -->
+<header class="sw-nav"><div class="sw-nav__inner"><a class="sw-nav__brand" href="https://huongdan.secondwind.vn/"><span class="sw-nav__name">Second Wind</span></a><nav class="sw-nav__links" aria-label="Điều hướng chính"><a class="sw-nav__btn sw-nav__btn--ghost" href="https://huongdan.secondwind.vn/"><span aria-hidden="true">←</span> Về trang chủ</a></nav></div></header>
+<!-- SW:NAV:END -->
+
+<section class="sw-dark">
+  <div class="sw-container" style="padding-top:var(--sw-sp-8);padding-bottom:var(--sw-sp-7);">
+    <nav class="hero-tag breadcrumb" aria-label="Breadcrumb"><a href="https://huongdan.secondwind.vn/">Trang chủ</a><span class="sep" aria-hidden="true">›</span><span>Quy trình</span><span class="sep" aria-hidden="true">›</span><span>Quản lý nhân sự</span></nav>
+    <h1 class="sw-h1 hero-title">Quy trình quản lý nhân sự</h1>
+    <p class="sw-text-2 hero-lede">Toàn bộ vòng đời nhân sự trong 5 giai đoạn: tuyển dụng, tiếp nhận, quản lý hằng ngày, chế độ và nghỉ việc. Chọn giai đoạn, xem người thực hiện, hồ sơ cần có ở từng bước và đánh dấu việc đã chuẩn bị.</p>
+    <p class="hero-meta">Căn cứ: quy trình mẫu bản cũ, chưa cập nhật theo luật hiện hành · Cập nhật 04/10/2026</p>
+    <div class="hero-stats"><div><div class="hero-stat-num">5</div><p class="sw-text-3" style="margin:0;">giai đoạn</p></div><div><div class="hero-stat-num">30</div><p class="sw-text-3" style="margin:0;">bước thực hiện</p></div><div><div class="hero-stat-num">84</div><p class="sw-text-3" style="margin:0;">hồ sơ, biểu mẫu</p></div></div>
+  </div>
+</section>
+
+<main class="sw-container qt-wrap">
+
+  <div class="sw-note sw-note--warning qt-intro">
+    <p>Đây là quy trình chép từ một bản mẫu cũ, giữ nguyên nội dung gốc. 20/30 bước có nội dung đã lỗi thời, được gắn nhãn <b>Cần cập nhật</b> kèm gợi ý rà soát. Cần đối chiếu văn bản pháp luật đang có hiệu lực trước khi áp dụng.</p>
+  </div>
+
+  <section class="block" style="margin-top:var(--sw-sp-5);">
+    <h2 class="sw-h3">Giai đoạn</h2>
+    <nav class="phase-bar" aria-label="Giai đoạn"><button type="button" class="phase-chip" data-phase="" aria-pressed="true">Tất cả</button><button type="button" class="phase-chip" data-phase="tuyen-dung" aria-pressed="false"><span class="phase-chip__no">1</span>Tuyển dụng</button><button type="button" class="phase-chip" data-phase="tiep-nhan" aria-pressed="false"><span class="phase-chip__no">2</span>Tiếp nhận &amp; ký hợp đồng</button><button type="button" class="phase-chip" data-phase="hang-ngay" aria-pressed="false"><span class="phase-chip__no">3</span>Quản lý hằng ngày</button><button type="button" class="phase-chip" data-phase="che-do" aria-pressed="false"><span class="phase-chip__no">4</span>Chế độ &amp; phát triển</button><button type="button" class="phase-chip" data-phase="nghi-viec" aria-pressed="false"><span class="phase-chip__no">5</span>Nghỉ việc</button></nav>
+    <div class="tools-row">
+      <label class="toggle"><input type="checkbox" id="onlyWarn"> Chỉ xem bước cần cập nhật</label>
+      <div class="progress-wrap"><p id="progressText">Đã chuẩn bị 0 hồ sơ, biểu mẫu</p><div class="progress"><div id="progressBar"></div></div></div>
+    </div>
+  </section>
+
+  <div class="layout">
+    <nav class="steps" id="steps" aria-label="Các bước"></nav>
+    <div class="sw-card detail" id="detail"></div>
+  </div>
+
+  <section class="block">
+    <h2 class="sw-h2">Hồ sơ, biểu mẫu theo bước</h2>
+    <p class="sw-text-2">Danh mục chép từ bản gốc, đã bỏ mã biểu mẫu nội bộ của doanh nghiệp cũ.</p>
+    <div class="sw-table-wrap doc-table"><table class="sw-table sw-table--stack"><thead><tr><th>Bước</th><th>Việc</th><th>Hồ sơ, biểu mẫu</th></tr></thead><tbody><tr><td data-label="Bước">1</td><td data-label="Việc">Nhu cầu tuyển dụng</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Phiếu đề xuất nhân sự</li><li>Quyết định, kế hoạch mở rộng, thành lập bộ phận</li></ul></td></tr><tr><td data-label="Bước">2</td><td data-label="Việc">Lên kế hoạch tuyển dụng</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Kế hoạch tuyển dụng</li></ul></td></tr><tr><td data-label="Bước">3</td><td data-label="Việc">Tiến hành tuyển dụng qua các phương tiện</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Thông báo tuyển dụng</li><li>Ma trận tuyển dụng</li></ul></td></tr><tr><td data-label="Bước">4</td><td data-label="Việc">Tiếp nhận hồ sơ, kèm phỏng vấn sơ bộ</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Sổ tiếp nhận hồ sơ</li><li>Phiếu nhận hồ sơ</li></ul></td></tr><tr><td data-label="Bước">5</td><td data-label="Việc">Phỏng vấn, kiểm tra tay nghề</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Bản đăng ký xin việc</li><li>Thông báo phỏng vấn</li></ul></td></tr><tr><td data-label="Bước">6</td><td data-label="Việc">Làm thủ tục nhận thử việc</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Hợp đồng thử việc</li><li>Giấy nhận việc</li><li>Thẻ chấm công</li><li>Phiếu đánh giá nhân viên</li><li>Danh sách nhân sự tuyển trong tháng</li><li>Quyết định mức lương thử việc</li></ul></td></tr><tr><td data-label="Bước">7</td><td data-label="Việc">Thử việc</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>—</li></ul></td></tr><tr><td data-label="Bước">8</td><td data-label="Việc">Làm thủ tục tiếp nhận chính thức</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Giấy nhận việc</li><li>1 biểu mẫu khác (file gốc không ghi tên)</li></ul></td></tr><tr><td data-label="Bước">9</td><td data-label="Việc">Ký hợp đồng lao động</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Hợp đồng lao động</li><li>Danh sách lao động tháng, quý</li></ul></td></tr><tr><td data-label="Bước">10</td><td data-label="Việc">Quản lý hồ sơ, lý lịch nhân sự</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>File lý lịch CNV công ty</li></ul></td></tr><tr><td data-label="Bước">11</td><td data-label="Việc">Quyết định mức lương</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Phiếu đề xuất mức lương</li><li>Quyết định mức lương chính thức</li></ul></td></tr><tr><td data-label="Bước">12</td><td data-label="Việc">Làm BHYT</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Danh sách đóng BHYT bổ sung tháng</li></ul></td></tr><tr><td data-label="Bước">13</td><td data-label="Việc">Làm BHXH</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Danh sách đóng BHXH bổ sung tháng</li></ul></td></tr><tr><td data-label="Bước">14</td><td data-label="Việc">Quản lý nhân sự hàng ngày</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Thẻ chấm công</li><li>Bảng chấm công</li><li>Giấy đề nghị tăng ca</li><li>Báo cáo nhân sự bộ phận</li><li>Báo cáo nhân sự tổng hợp</li><li>Đơn xin nghỉ phép</li><li>Đơn xin nghỉ việc riêng</li><li>Quy định quản lý nhân sự</li><li>Danh sách báo cơm</li><li>Nội quy lao động</li></ul></td></tr><tr><td data-label="Bước">15</td><td data-label="Việc">Vi phạm kỷ luật</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Biên bản vi phạm</li><li>Bản tường trình</li><li>Bản kiểm điểm cá nhân</li><li>Biên bản họp kiểm điểm, đề nghị hình thức kỷ luật</li><li>Quyết định kỷ luật</li><li>Hướng dẫn xem xét thi hành kỷ luật</li></ul></td></tr><tr><td data-label="Bước">16</td><td data-label="Việc">Nhận xét nhân viên</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Bảng đánh giá nhân viên hàng tháng</li><li>Phiếu nhận xét quá trình công tác của nhân viên</li></ul></td></tr><tr><td data-label="Bước">17</td><td data-label="Việc">Quyết định chuyển bộ phận</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Giấy đề nghị chuyển bộ phận</li><li>Quyết định chuyển bộ phận</li></ul></td></tr><tr><td data-label="Bước">18</td><td data-label="Việc">Quyết định bổ nhiệm</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Quyết định bổ nhiệm</li></ul></td></tr><tr><td data-label="Bước">19</td><td data-label="Việc">Quyết định khen thưởng</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Giấy đề nghị khen thưởng</li><li>Quyết định khen thưởng</li><li>Quy định khen thưởng</li></ul></td></tr><tr><td data-label="Bước">20</td><td data-label="Việc">Đào tạo nhân viên</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Phiếu xác định nhu cầu đào tạo</li><li>Phiếu yêu cầu đào tạo</li><li>Kế hoạch đào tạo</li><li>Chương trình đào tạo nội bộ</li><li>Danh sách CNV được đào tạo</li><li>Phiếu đào tạo và hướng dẫn nhân viên</li></ul></td></tr><tr><td data-label="Bước">21</td><td data-label="Việc">Quyết định tăng, giảm lương</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Giấy đề nghị tăng lương</li><li>Các quyết định kỷ luật</li><li>Quyết định tăng, giảm lương</li></ul></td></tr><tr><td data-label="Bước">22</td><td data-label="Việc">Thực hiện chế độ độc hại</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Danh sách CNV hưởng chế độ độc hại</li></ul></td></tr><tr><td data-label="Bước">23</td><td data-label="Việc">Chế độ và quản lý lao động chưa thành niên</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Danh sách lao động chưa thành niên</li><li>Phiếu theo dõi lao động chưa thành niên</li></ul></td></tr><tr><td data-label="Bước">24</td><td data-label="Việc">Chế độ thai sản, nuôi con dưới 12 tháng tuổi</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Danh sách nữ mang thai</li><li>Danh sách nữ CNV nuôi con dưới 12 tháng tuổi</li></ul></td></tr><tr><td data-label="Bước">25</td><td data-label="Việc">Chế độ chăm sóc sức khoẻ</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Kế hoạch khám định kỳ</li><li>Danh sách khám sức khoẻ định kỳ</li><li>Biên bản tai nạn lao động</li><li>Danh sách CNV bệnh hàng tháng</li><li>Báo cáo các loại bệnh</li><li>Báo cáo các tai nạn lao động</li><li>Danh sách phụ cấp ốm đau tháng</li></ul></td></tr><tr><td data-label="Bước">26</td><td data-label="Việc">Chế độ khác</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Danh sách bồi dưỡng tăng ca</li><li>Danh sách ma chay tháng</li><li>Danh sách cưới tháng</li></ul></td></tr><tr><td data-label="Bước">27</td><td data-label="Việc">Theo dõi thâm niên, cấp bậc</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Danh sách thâm niên</li><li>Danh sách phẩm hàm</li></ul></td></tr><tr><td data-label="Bước">28</td><td data-label="Việc">Chế độ phép năm</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Đơn xin nghỉ phép</li><li>Lý lịch CNV công ty</li><li>Danh sách tiền phép</li></ul></td></tr><tr><td data-label="Bước">29</td><td data-label="Việc">Quyết định nghỉ việc</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Đơn xin nghỉ việc</li><li>Quyết định sa thải</li><li>Danh sách nghỉ việc tháng bộ phận</li><li>Danh sách nghỉ việc tháng công ty</li><li>Quyết định nghỉ việc</li><li>Giấy chứng nhận công tác</li></ul></td></tr><tr><td data-label="Bước">30</td><td data-label="Việc">Lưu hồ sơ</td><td data-label="Hồ sơ, biểu mẫu"><ul><li>Danh sách nghỉ việc</li></ul></td></tr></tbody></table></div>
+  </section>
+
+  <section class="block">
+    <h2 class="sw-h2">Viết tắt trong quy trình</h2>
+    <div class="gloss"><div class="fact"><p class="k">TCHC</p><p class="v">Tổ chức hành chính (Phòng TCHC, TP TCHC = Trưởng phòng TCHC)</p></div><div class="fact"><p class="k">QLNS / QLHS</p><p class="v">Quản lý nhân sự / Quản lý hồ sơ</p></div><div class="fact"><p class="k">CNV</p><p class="v">Công nhân viên</p></div><div class="fact"><p class="k">SYLL, ĐXV, GKSK</p><p class="v">Sơ yếu lý lịch, Đơn xin việc, Giấy khám sức khoẻ</p></div><div class="fact"><p class="k">LĐTBXH</p><p class="v">Lao động - Thương binh và Xã hội</p></div><div class="fact"><p class="k">BHXH, BHYT, BHTN</p><p class="v">Bảo hiểm xã hội, bảo hiểm y tế, bảo hiểm thất nghiệp</p></div></div>
+  </section>
+
+
+  <div class="sw-note qt-source">
+    <p>Quy trình tham khảo do Second Wind biên soạn lại từ bản mẫu cũ. Cần điều chỉnh theo quy mô, ngành nghề và thực tế vận hành của từng doanh nghiệp.</p>
+  </div>
+
+  <div class="related">
+    <a class="sw-link back-link" href="https://huongdan.secondwind.vn/">← Về Trang chủ</a>
+  </div>
+
+</main>
+
+<!-- SW:FOOTER:START -->
+<footer style="border-top:1px solid var(--sw-border);">
+  <div class="sw-container" style="padding-top:var(--sw-sp-5);padding-bottom:var(--sw-sp-6);">
+    <p class="sw-text-3" style="max-width:70ch;">Nội dung mang tính tham khảo, không thay thế văn bản pháp luật gốc hoặc tư vấn pháp lý cụ thể cho từng trường hợp.</p>
+  </div>
+</footer>
+<!-- SW:FOOTER:END -->
+
+<script>
+(function () {
+  var DATA = {"mode": "all", "base": "https://huongdan.secondwind.vn", "total": 30, "phases": [{"id": "tuyen-dung", "no": 1, "name": "Tuyển dụng"}, {"id": "tiep-nhan", "no": 2, "name": "Tiếp nhận & ký hợp đồng"}, {"id": "hang-ngay", "no": 3, "name": "Quản lý hằng ngày"}, {"id": "che-do", "no": 4, "name": "Chế độ & phát triển"}, {"id": "nghi-viec", "no": 5, "name": "Nghỉ việc"}], "steps": [{"no": 1, "phase": "tuyen-dung", "title": "Nhu cầu tuyển dụng", "who": ["Bộ phận có nhu cầu", "Công ty (Phòng TCHC)"], "docs": ["Phiếu đề xuất nhân sự", "Quyết định, kế hoạch mở rộng, thành lập bộ phận"], "explain": ["Căn cứ: theo đề xuất của các bộ phận, quyết định - kế hoạch thành lập, mở rộng bộ phận."], "checks": [{"who": "TP TCHC", "text": "Xem xét đề xuất của các bộ phận có đúng không? Nếu sai, yêu cầu bộ phận sửa lại."}, {"who": "Ban Giám đốc", "text": "Duyệt chỉ tiêu nhân sự."}], "fail": "Quay lại bộ phận đề xuất.", "warn": null, "link": null}, {"no": 2, "phase": "tuyen-dung", "title": "Lên kế hoạch tuyển dụng", "who": ["TP TCHC"], "docs": ["Kế hoạch tuyển dụng"], "explain": ["Xác định nguồn, phương pháp tuyển dụng, chi phí tuyển dụng."], "checks": [{"who": "Ban Giám đốc", "text": "Duyệt nguồn tuyển dụng, chi phí tuyển dụng."}], "fail": "Lập lại kế hoạch tuyển dụng.", "warn": null, "link": null}, {"no": 3, "phase": "tuyen-dung", "title": "Tiến hành tuyển dụng qua các phương tiện", "who": ["TP TCHC", "Nhân viên quản lý nhân sự"], "docs": ["Thông báo tuyển dụng", "Ma trận tuyển dụng"], "explain": ["Thông báo ghi rõ: vị trí, số lượng tuyển, hồ sơ, điều kiện và thông báo trên các nguồn tuyển dụng, làm thủ tục thanh toán chi phí thông báo.", "Ma trận tuyển dụng nêu ra việc lựa chọn phương pháp và nguồn tuyển dụng."], "checks": [{"who": "TP TCHC", "text": "Kiểm tra (file gốc không ghi nội dung kiểm tra)."}], "fail": "Làm lại thông báo tuyển dụng.", "warn": ["Bộ luật Lao động 2019 cấm phân biệt đối xử trong lao động (giới tính, độ tuổi, dân tộc, tình trạng hôn nhân…). Nên rà lại các điều kiện ghi trong mẫu thông báo cũ."], "link": null}, {"no": 4, "phase": "tuyen-dung", "title": "Tiếp nhận hồ sơ, kèm phỏng vấn sơ bộ", "who": ["Nhân viên QLNS", "TP TCHC (vị trí quan trọng)"], "docs": ["Sổ tiếp nhận hồ sơ", "Phiếu nhận hồ sơ"], "explain": ["Hồ sơ đầy đủ: SYLL (2 bản chính), ĐXV (01), GKSK (01 bản có giá trị không quá 6 tháng), Giấy tạm vắng với các tỉnh ngoài TP HCM có giá trị không quá 6 tháng, CMND bản sao công chứng; kiểm tra tuổi, chuyên môn theo yêu cầu."], "checks": [{"who": "Nhân viên QLHS", "text": "Nếu thiếu thì yêu cầu bổ sung hồ sơ, hoặc hẹn bổ sung hồ sơ trước khi thử việc."}], "fail": "Chuyển sang nhánh “Ứng viên không đạt yêu cầu”.", "warn": ["CMND đã hết giá trị sử dụng, thay bằng thẻ Căn cước/CCCD (Luật Căn cước 2023). Có thể đối chiếu thông tin qua VNeID thay cho bản sao công chứng.", "Giấy tạm vắng gắn với sổ hộ khẩu giấy, đã không còn dùng theo Luật Cư trú 2020. Yêu cầu riêng với người “ngoài TP HCM” nên xem lại có thật sự cần không; nếu cần thì thay bằng xác nhận thông tin cư trú."], "link": null}, {"no": 5, "phase": "tuyen-dung", "title": "Phỏng vấn, kiểm tra tay nghề", "who": ["Người phỏng vấn (Phòng TCHC chỉ định, nếu thấy cần phỏng vấn)", "Trưởng bộ phận có nhu cầu"], "docs": ["Bản đăng ký xin việc", "Thông báo phỏng vấn"], "explain": ["Đạt yêu cầu thì Trưởng bộ phận xác nhận vào Phiếu nhận hồ sơ, chuyển ứng viên về Phòng TCHC để làm thủ tục nhận việc."], "checks": null, "fail": "Chuyển sang nhánh “Ứng viên không đạt yêu cầu”.", "warn": null, "link": null}, {"no": 6, "phase": "tiep-nhan", "title": "Làm thủ tục nhận thử việc", "who": ["Nhân viên QLNS"], "docs": ["Hợp đồng thử việc", "Giấy nhận việc", "Thẻ chấm công", "Phiếu đánh giá nhân viên", "Danh sách nhân sự tuyển trong tháng", "Quyết định mức lương thử việc"], "explain": ["Khi nhận việc (làm hợp đồng thử việc, phát hành giấy nhận việc) bắt buộc phải có đủ hồ sơ.", "Hồ sơ không trả lại ứng viên khi đã thử việc (có thể có ngoại lệ)."], "checks": null, "fail": null, "warn": ["Bộ luật Lao động 2019 cấm người sử dụng lao động giữ bản chính giấy tờ tùy thân, văn bằng, chứng chỉ của người lao động. Quy định “không trả lại hồ sơ” cần rà lại, chỉ giữ bản sao.", "Lương thử việc phải ít nhất 85% lương của công việc đó; thời gian thử việc có giới hạn theo từng loại công việc (Điều 25, 26 BLLĐ 2019)."], "link": null}, {"no": 7, "phase": "tiep-nhan", "title": "Thử việc", "who": ["Trưởng bộ phận có nhu cầu"], "docs": [], "explain": ["Xác nhận vào giấy nhận việc."], "checks": null, "fail": "Chuyển sang nhánh “Ứng viên không đạt yêu cầu”.", "warn": ["Khi hết thời gian thử việc, doanh nghiệp phải thông báo kết quả thử việc cho người lao động (Điều 27 BLLĐ 2019). File gốc chưa có bước này."], "link": null}, {"no": 8, "phase": "tiep-nhan", "title": "Làm thủ tục tiếp nhận chính thức", "who": ["TP TCHC", "Nhân viên QLNS"], "docs": ["Giấy nhận việc", "1 biểu mẫu khác (file gốc không ghi tên)"], "explain": [], "checks": null, "fail": null, "warn": null, "link": null}, {"no": 9, "phase": "tiep-nhan", "title": "Ký hợp đồng lao động", "who": ["Nhân viên QLNS"], "docs": ["Hợp đồng lao động", "Danh sách lao động tháng, quý"], "explain": ["Ký hợp đồng lao động theo uỷ quyền (có con dấu).", "Đăng ký danh sách lao động với Phòng LĐTBXH huyện."], "checks": [{"who": "Trưởng phòng TCHC", "text": "Kiểm tra danh sách lao động."}], "fail": "Lập lại hợp đồng, danh sách lao động.", "warn": ["Cấp huyện không còn và ngành LĐTBXH đã sáp nhập vào ngành Nội vụ trong năm 2025. Việc khai trình, báo cáo tình hình sử dụng lao động nay làm qua Cổng dịch vụ công — cần cập nhật đầu mối tiếp nhận."], "link": null}, {"no": 10, "phase": "tiep-nhan", "title": "Quản lý hồ sơ, lý lịch nhân sự", "who": ["Nhân viên QLNS"], "docs": ["File lý lịch CNV công ty"], "explain": ["Lập hồ sơ vào file theo thứ tự tăng dần (1, 2, 3…).", "Nhập lý lịch nhân viên vào file lý lịch CNV toàn công ty."], "checks": [{"who": "Trưởng phòng TCHC", "text": "Kiểm tra (file gốc không ghi nội dung kiểm tra)."}], "fail": "Bổ sung, sửa hồ sơ.", "warn": ["Lý lịch nhân viên là dữ liệu cá nhân. Cần bổ sung quy định phân quyền truy cập, lưu trữ, xóa dữ liệu theo Luật Bảo vệ dữ liệu cá nhân 91/2025/QH15."], "link": null}, {"no": 11, "phase": "tiep-nhan", "title": "Quyết định mức lương", "who": ["Trưởng bộ phận có nhu cầu (đề xuất)", "Trưởng phòng TCHC", "Ban Giám đốc"], "docs": ["Phiếu đề xuất mức lương", "Quyết định mức lương chính thức"], "explain": [], "checks": [{"who": "Trưởng phòng TCHC, Ban Giám đốc", "text": "Duyệt mức lương, ra quyết định mức lương chính thức."}], "fail": "Trưởng bộ phận đề xuất lại.", "warn": ["Mức lương phải không thấp hơn lương tối thiểu vùng đang áp dụng. Nên đối chiếu với thang lương, bảng lương hiện hành của doanh nghiệp."], "link": null}, {"no": 12, "phase": "tiep-nhan", "title": "Làm BHYT", "who": ["Nhân viên chế độ"], "docs": ["Danh sách đóng BHYT bổ sung tháng"], "explain": [], "checks": null, "fail": null, "warn": ["BHXH, BHYT, BHTN nay đăng ký chung một hồ sơ điện tử với cơ quan BHXH, không làm riêng từng loại. File gốc chưa có BHTN."], "link": null}, {"no": 13, "phase": "tiep-nhan", "title": "Làm BHXH", "who": ["Nhân viên chế độ"], "docs": ["Danh sách đóng BHXH bổ sung tháng"], "explain": ["Lập sổ đóng BHXH, thanh toán tiền đóng BHXH."], "checks": null, "fail": null, "warn": ["Từ 01/7/2025 áp dụng Luật BHXH 2024. Sổ BHXH chủ yếu quản lý điện tử (VssID); hạn đăng ký tham gia là 30 ngày kể từ ngày hợp đồng lao động có hiệu lực. Cần cập nhật thủ tục “lập sổ”."], "link": null}, {"no": 14, "phase": "hang-ngay", "title": "Quản lý nhân sự hàng ngày", "who": ["Trưởng bộ phận", "Nhân viên QLNS", "Bảo vệ công ty"], "docs": ["Thẻ chấm công", "Bảng chấm công", "Giấy đề nghị tăng ca", "Báo cáo nhân sự bộ phận", "Báo cáo nhân sự tổng hợp", "Đơn xin nghỉ phép", "Đơn xin nghỉ việc riêng", "Quy định quản lý nhân sự", "Danh sách báo cơm", "Nội quy lao động"], "explain": [], "checks": null, "fail": null, "warn": ["Làm thêm giờ phải có sự đồng ý của người lao động và không vượt giới hạn giờ làm thêm theo ngày, tháng, năm (Điều 107 BLLĐ 2019). Nên thêm ô “đồng ý của người lao động” vào giấy đề nghị tăng ca.", "Nội quy lao động phải đăng ký với cơ quan quản lý lao động nếu sử dụng từ 10 người trở lên."], "link": {"text": "Xem quy trình lập nội quy lao động", "slug": "quy-trinh-lap-noi-quy-lao-dong"}}, {"no": 15, "phase": "hang-ngay", "title": "Vi phạm kỷ luật", "who": ["Người lập biên bản", "Trưởng bộ phận", "Nhân viên pháp chế", "Trưởng phòng TCHC", "Ban Giám đốc", "Hội đồng hoà giải"], "docs": ["Biên bản vi phạm", "Bản tường trình", "Bản kiểm điểm cá nhân", "Biên bản họp kiểm điểm, đề nghị hình thức kỷ luật", "Quyết định kỷ luật", "Hướng dẫn xem xét thi hành kỷ luật"], "explain": ["Câu hỏi còn bỏ ngỏ trong file gốc: “Khi nghỉ vô kỷ luật thì xử lý sao?”"], "checks": null, "fail": null, "warn": ["Trình tự xử lý kỷ luật phải theo Điều 122 BLLĐ 2019 và Nghị định 145/2020: có mặt người lao động, có sự tham gia của tổ chức đại diện người lao động (nếu là thành viên), lập biên bản, trong thời hiệu.", "“Hội đồng hoà giải” cơ sở không còn trong BLLĐ 2019 (nay là hòa giải viên lao động). Cần thay thành phần tham gia.", "Trả lời câu hỏi bỏ ngỏ: tự ý bỏ việc 05 ngày cộng dồn trong 30 ngày hoặc 20 ngày cộng dồn trong 365 ngày mà không có lý do chính đáng có thể bị sa thải (Điều 125 BLLĐ 2019) — phải ghi trong nội quy và làm đúng trình tự."], "link": null}, {"no": 16, "phase": "hang-ngay", "title": "Nhận xét nhân viên", "who": ["Trưởng bộ phận", "Trưởng phòng TCHC"], "docs": ["Bảng đánh giá nhân viên hàng tháng", "Phiếu nhận xét quá trình công tác của nhân viên"], "explain": [], "checks": null, "fail": null, "warn": null, "link": null}, {"no": 17, "phase": "che-do", "title": "Quyết định chuyển bộ phận", "who": ["Trưởng các bộ phận", "Trưởng phòng TCHC", "Nhân viên QLNS"], "docs": ["Giấy đề nghị chuyển bộ phận", "Quyết định chuyển bộ phận"], "explain": [], "checks": null, "fail": null, "warn": ["Chuyển người lao động làm công việc khác so với hợp đồng chỉ được trong các trường hợp nội quy quy định, tối đa 60 ngày làm việc cộng dồn/năm và phải báo trước ít nhất 3 ngày làm việc (Điều 29 BLLĐ 2019). Chuyển hẳn thì phải sửa đổi hợp đồng hoặc ký phụ lục."], "link": null}, {"no": 18, "phase": "che-do", "title": "Quyết định bổ nhiệm", "who": ["Trưởng bộ phận", "Nhân viên pháp chế", "Trưởng phòng TCHC", "Ban Giám đốc"], "docs": ["Quyết định bổ nhiệm"], "explain": [], "checks": null, "fail": null, "warn": null, "link": null}, {"no": 19, "phase": "che-do", "title": "Quyết định khen thưởng", "who": ["Trưởng bộ phận", "Nhân viên pháp chế", "Trưởng phòng TCHC", "Ban Giám đốc"], "docs": ["Giấy đề nghị khen thưởng", "Quyết định khen thưởng", "Quy định khen thưởng"], "explain": [], "checks": null, "fail": null, "warn": ["Quy chế thưởng do doanh nghiệp quyết định, phải công bố công khai tại nơi làm việc sau khi tham khảo ý kiến tổ chức đại diện người lao động (nếu có) (Điều 104 BLLĐ 2019)."], "link": null}, {"no": 20, "phase": "che-do", "title": "Đào tạo nhân viên", "who": ["Trưởng bộ phận", "Người đào tạo", "Cán bộ TCHC phụ trách đào tạo"], "docs": ["Phiếu xác định nhu cầu đào tạo", "Phiếu yêu cầu đào tạo", "Kế hoạch đào tạo", "Chương trình đào tạo nội bộ", "Danh sách CNV được đào tạo", "Phiếu đào tạo và hướng dẫn nhân viên"], "explain": [], "checks": null, "fail": null, "warn": null, "link": null}, {"no": 21, "phase": "che-do", "title": "Quyết định tăng, giảm lương", "who": ["CNV", "Trưởng bộ phận", "Trưởng phòng TCHC"], "docs": ["Giấy đề nghị tăng lương", "Các quyết định kỷ luật", "Quyết định tăng, giảm lương"], "explain": [], "checks": null, "fail": null, "warn": ["File gốc dùng “quyết định kỷ luật” làm căn cứ giảm lương. BLLĐ 2019 cấm phạt tiền, cắt lương thay cho xử lý kỷ luật. Hạ lương chỉ được khi hai bên thỏa thuận sửa đổi hợp đồng — cần rà lại bước này."], "link": null}, {"no": 22, "phase": "che-do", "title": "Thực hiện chế độ độc hại", "who": ["Trưởng bộ phận", "Nhân viên chế độ", "Trưởng phòng TCHC", "Ban Giám đốc"], "docs": ["Danh sách CNV hưởng chế độ độc hại"], "explain": [], "checks": null, "fail": null, "warn": ["Danh mục nghề nặng nhọc, độc hại và mức bồi dưỡng bằng hiện vật cần đối chiếu văn bản hướng dẫn đang có hiệu lực."], "link": null}, {"no": 23, "phase": "che-do", "title": "Chế độ và quản lý lao động chưa thành niên", "who": ["Trưởng bộ phận", "Nhân viên QLNS", "Trưởng phòng TCHC"], "docs": ["Danh sách lao động chưa thành niên", "Phiếu theo dõi lao động chưa thành niên"], "explain": [], "checks": null, "fail": null, "warn": ["Đối chiếu Điều 143–147 BLLĐ 2019 về công việc, thời giờ làm việc và sổ theo dõi riêng đối với người lao động chưa thành niên."], "link": null}, {"no": 24, "phase": "che-do", "title": "Chế độ thai sản, nuôi con dưới 12 tháng tuổi", "who": ["CNV nữ mang thai…", "Trưởng bộ phận", "Nhân viên y tế", "Nhân viên chế độ"], "docs": ["Danh sách nữ mang thai", "Danh sách nữ CNV nuôi con dưới 12 tháng tuổi"], "explain": [], "checks": null, "fail": null, "warn": ["Chế độ thai sản nay theo Luật BHXH 2024 (áp dụng từ 01/7/2025), có cả chế độ cho lao động nam khi vợ sinh con. Bước này cần bổ sung, không chỉ dành cho lao động nữ."], "link": null}, {"no": 25, "phase": "che-do", "title": "Chế độ chăm sóc sức khoẻ", "who": ["Nhân viên y tế", "Nhân viên chế độ"], "docs": ["Kế hoạch khám định kỳ", "Danh sách khám sức khoẻ định kỳ", "Biên bản tai nạn lao động", "Danh sách CNV bệnh hàng tháng", "Báo cáo các loại bệnh", "Báo cáo các tai nạn lao động", "Danh sách phụ cấp ốm đau tháng"], "explain": ["Lưu ý khám sức khoẻ bình thường là 1 năm/lần, độc hại là 6 tháng/lần."], "checks": null, "fail": null, "warn": ["Theo Luật An toàn, vệ sinh lao động 2015, lao động nữ còn được khám chuyên khoa phụ sản. Khai báo, điều tra, báo cáo tai nạn lao động có mẫu và thời hạn riêng — cần đối chiếu văn bản hiện hành."], "link": null}, {"no": 26, "phase": "che-do", "title": "Chế độ khác", "who": ["Nhân viên chế độ"], "docs": ["Danh sách bồi dưỡng tăng ca", "Danh sách ma chay tháng", "Danh sách cưới tháng"], "explain": [], "checks": null, "fail": null, "warn": null, "link": null}, {"no": 27, "phase": "che-do", "title": "Theo dõi thâm niên, cấp bậc", "who": ["Nhân viên chế độ"], "docs": ["Danh sách thâm niên", "Danh sách phẩm hàm"], "explain": ["Nếu thâm niên chưa chính xác thì in danh sách chuyển các bộ phận ký tên, nếu có khiếu nại giải quyết ngay, một lần."], "checks": null, "fail": null, "warn": null, "link": null}, {"no": 28, "phase": "che-do", "title": "Chế độ phép năm", "who": ["Nhân viên chế độ"], "docs": ["Đơn xin nghỉ phép", "Lý lịch CNV công ty", "Danh sách tiền phép"], "explain": [], "checks": null, "fail": null, "warn": ["Đối chiếu Điều 113–114 BLLĐ 2019: số ngày phép theo điều kiện làm việc, cộng thêm theo thâm niên, và thanh toán tiền lương cho ngày phép chưa nghỉ khi thôi việc."], "link": null}, {"no": 29, "phase": "nghi-viec", "title": "Quyết định nghỉ việc", "who": ["CNV liên quan", "Trưởng bộ phận", "Nhân viên chế độ", "Nhân viên pháp chế", "Trưởng phòng TCHC", "Ban Giám đốc"], "docs": ["Đơn xin nghỉ việc", "Quyết định sa thải", "Danh sách nghỉ việc tháng bộ phận", "Danh sách nghỉ việc tháng công ty", "Quyết định nghỉ việc", "Giấy chứng nhận công tác"], "explain": ["Câu hỏi còn bỏ ngỏ trong file gốc: “Thủ tục thanh toán BHXH, trợ cấp, lương như thế nào?”", "Câu hỏi còn bỏ ngỏ trong file gốc: “Xử lý nghỉ vô kỷ luật, không đúng thời hạn như thế nào?”"], "checks": null, "fail": null, "warn": ["Trả lời câu hỏi bỏ ngỏ: trong 14 ngày làm việc kể từ ngày chấm dứt hợp đồng, hai bên thanh toán đầy đủ các khoản (tối đa 30 ngày trong một số trường hợp), doanh nghiệp xác nhận thời gian đóng bảo hiểm và trả lại giấy tờ (Điều 48 BLLĐ 2019). Trợ cấp thôi việc theo Điều 46.", "Người lao động nghỉ không đúng thời hạn báo trước là đơn phương chấm dứt trái luật, có nghĩa vụ bồi thường theo Điều 40 BLLĐ 2019 — cần ghi rõ cách tính trong quy trình."], "link": null}, {"no": 30, "phase": "nghi-viec", "title": "Lưu hồ sơ", "who": ["Nhân viên QLNS"], "docs": ["Danh sách nghỉ việc"], "explain": [], "checks": null, "fail": null, "warn": null, "link": null}]};
+  var MODE = DATA.mode;               // "all" | "phase"
+  var STEPS = DATA.steps, PHASES = DATA.phases;
+  var state = { phase: "", onlyWarn: false, current: STEPS[0].no, done: {} };
+  var phaseName = {}; PHASES.forEach(function (p) { phaseName[p.id] = p.no + ". " + p.name; });
+
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function key(no, i) { return no + "-" + i; }
+  function visible() {
+    return STEPS.filter(function (s) {
+      return (!state.phase || s.phase === state.phase) && (!state.onlyWarn || (s.warn && s.warn.length));
+    });
+  }
+  function stepDone(s) {
+    if (!s.docs.length) return false;
+    for (var i = 0; i < s.docs.length; i++) if (!state.done[key(s.no, i)]) return false;
+    return true;
+  }
+  function byNo(no) { for (var i = 0; i < STEPS.length; i++) if (STEPS[i].no === no) return STEPS[i]; return null; }
+
+  function renderSteps() {
+    var box = document.getElementById("steps"); box.innerHTML = "";
+    var list = visible(), lastPhase = "";
+    if (!list.length) { box.appendChild(el("p", "empty-line", "Không có bước nào khớp bộ lọc.")); return; }
+    if (list.every(function (s) { return s.no !== state.current; })) state.current = list[0].no;
+    list.forEach(function (s) {
+      if (MODE === "all" && !state.phase && s.phase !== lastPhase) { box.appendChild(el("p", "steps-group", phaseName[s.phase])); lastPhase = s.phase; }
+      var b = el("button", "step" + (stepDone(s) ? " step--done" : ""));
+      b.type = "button";
+      b.setAttribute("aria-current", s.no === state.current ? "true" : "false");
+      b.appendChild(el("span", "step-num", stepDone(s) ? "✓" : String(s.no)));
+      var body = el("span", "step-body");
+      body.appendChild(el("p", "step-title", s.title));
+      var meta = el("p", "step-meta");
+      meta.appendChild(el("span", null, s.who[0] + (s.docs.length ? " · " + s.docs.length + " hồ sơ" : "")));
+      if (s.warn && s.warn.length) meta.appendChild(el("span", "flag-warn", "Cần cập nhật"));
+      body.appendChild(meta);
+      b.appendChild(body);
+      b.addEventListener("click", function () {
+        state.current = s.no; render();
+        if (window.innerWidth <= 860) document.getElementById("detail").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      box.appendChild(b);
+    });
+  }
+
+  function fact(label, lines) {
+    var c = el("div", "fact"); c.appendChild(el("p", "k", label));
+    lines.forEach(function (t) { c.appendChild(el("p", "v", t)); });
+    return c;
+  }
+
+  function renderDetail() {
+    var d = document.getElementById("detail"); d.innerHTML = "";
+    var list = visible(); if (!list.length) { d.appendChild(el("p", "empty-line", "Chọn lại bộ lọc để xem chi tiết.")); return; }
+    var s = byNo(state.current), idx = list.indexOf(s);
+    var head = el("div", "detail-head");
+    head.appendChild(el("p", "sw-text-3", "Bước " + s.no + " / " + DATA.total));
+    head.appendChild(el("span", "sw-badge sw-badge--info", phaseName[s.phase]));
+    d.appendChild(head);
+    var h = el("h2", "sw-h3", s.title); h.style.marginTop = "var(--sw-sp-2)"; d.appendChild(h);
+
+    var facts = el("div", "facts");
+    facts.appendChild(fact("Người thực hiện", s.who));
+    if (s.checks && s.checks.length) facts.appendChild(fact("Kiểm tra, duyệt", s.checks.map(function (c) { return c.who + ": " + c.text; })));
+    if (s.fail) facts.appendChild(fact("Nếu không đạt", [s.fail]));
+    d.appendChild(facts);
+
+    d.appendChild(el("p", "sub-title", "Hồ sơ, biểu mẫu"));
+    if (!s.docs.length) d.appendChild(el("p", "empty-line", "File gốc không ghi hồ sơ cho bước này."));
+    s.docs.forEach(function (t, i) {
+      var lab = el("label", "check"), cb = document.createElement("input");
+      cb.type = "checkbox"; cb.checked = !!state.done[key(s.no, i)];
+      cb.addEventListener("change", function () { state.done[key(s.no, i)] = cb.checked; renderSteps(); renderProgress(); });
+      lab.appendChild(cb); lab.appendChild(el("p", null, t)); d.appendChild(lab);
+    });
+
+    if (s.explain.length) {
+      d.appendChild(el("p", "sub-title", "Diễn giải (bản gốc)"));
+      var ex = el("div", "stack-notes");
+      s.explain.forEach(function (t) { var n = el("div", "sw-note"); n.appendChild(el("p", null, t)); ex.appendChild(n); });
+      d.appendChild(ex);
+    }
+    if (s.warn && s.warn.length) {
+      d.appendChild(el("p", "sub-title", "Cần cập nhật"));
+      var wr = el("div", "stack-notes");
+      s.warn.forEach(function (t) {
+        var n = el("div", "sw-note sw-note--warning"), p = el("p");
+        p.appendChild(el("span", "warn-label", "Gợi ý rà soát · không phải nội dung gốc"));
+        p.appendChild(document.createTextNode(t)); n.appendChild(p); wr.appendChild(n);
+      });
+      d.appendChild(wr);
+    }
+    if (s.link) {
+      var lp = el("p"); lp.style.margin = "var(--sw-sp-4) 0 0";
+      var a = el("a", "sw-link", s.link.text + " →"); a.href = DATA.base + "/quy-trinh/" + s.link.slug + "/";
+      lp.appendChild(a); d.appendChild(lp);
+    }
+
+    var nav = el("div", "step-nav");
+    var prev = el("button", "sw-btn sw-btn--secondary", "← Bước trước"); prev.type = "button"; prev.disabled = idx <= 0;
+    prev.addEventListener("click", function () { state.current = list[idx - 1].no; render(); });
+    var next = el("button", "sw-btn sw-btn--primary", "Bước tiếp →"); next.type = "button"; next.disabled = idx >= list.length - 1;
+    next.addEventListener("click", function () { state.current = list[idx + 1].no; render(); });
+    nav.appendChild(prev); nav.appendChild(next); d.appendChild(nav);
+  }
+
+  function renderProgress() {
+    var total = 0, done = 0;
+    visible().forEach(function (s) { s.docs.forEach(function (_, i) { total++; if (state.done[key(s.no, i)]) done++; }); });
+    var pct = total ? Math.round(done * 100 / total) : 0;
+    document.getElementById("progressText").textContent = "Đã chuẩn bị " + done + "/" + total + " hồ sơ, biểu mẫu (" + pct + "%)";
+    document.getElementById("progressBar").style.width = pct + "%";
+  }
+
+  function render() { renderSteps(); renderDetail(); renderProgress(); }
+
+  Array.prototype.forEach.call(document.querySelectorAll("button.phase-chip"), function (btn) {
+    btn.addEventListener("click", function () {
+      state.phase = btn.getAttribute("data-phase");
+      Array.prototype.forEach.call(document.querySelectorAll("button.phase-chip"), function (o) { o.setAttribute("aria-pressed", o === btn ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("onlyWarn").addEventListener("change", function (ev) { state.onlyWarn = ev.target.checked; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
