@@ -208,6 +208,10 @@
 .sw-foot__col p { margin: 0 0 6px; line-height: 1.6; }
 .sw-foot__title { margin-bottom: var(--sw-sp-3) !important; font-size: var(--sw-fs-xs); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--sw-cyan); }
 .sw-foot__org { margin-bottom: var(--sw-sp-3) !important; color: #FFFFFF; font-weight: 700; font-size: var(--sw-fs-md); line-height: 1.3 !important; } /* v1.6.1: tên đơn vị nằm ở hàng tiêu đề cột */
+.sw-foot__row { display: flex; align-items: flex-start; gap: 10px; }
+.sw-foot__ico { display: inline-flex; flex: none; width: 18px; height: 18px; margin-top: 3px; color: var(--sw-cyan); }
+.sw-foot__ico svg { width: 18px; height: 18px; display: block; }
+.sw-foot__val { min-width: 0; overflow-wrap: anywhere; } /* v1.6.3: địa chỉ, điện thoại dùng biểu tượng thay chữ */
 .sw-foot a { color: #FFFFFF; text-decoration: none; }
 .sw-foot a:hover { text-decoration: underline; }
 .sw-foot__links { display: flex; flex-direction: column; gap: 10px; }
