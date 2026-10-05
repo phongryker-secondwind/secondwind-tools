@@ -211,7 +211,7 @@
 .sw-foot__row { display: flex; align-items: flex-start; gap: 10px; }
 .sw-foot__ico { display: inline-flex; flex: none; width: 18px; height: 18px; margin-top: 3px; color: var(--sw-cyan); }
 .sw-foot__ico svg { width: 18px; height: 18px; display: block; }
-.sw-foot__val { min-width: 0; overflow-wrap: anywhere; } /* v1.6.3: địa chỉ, điện thoại dùng biểu tượng thay chữ */
+.sw-foot__val { min-width: 0; overflow-wrap: anywhere; color: #FFFFFF; } /* v1.6.3: địa chỉ, điện thoại dùng biểu tượng thay chữ; v1.6.4: nội dung chữ trắng */
 .sw-foot a { color: #FFFFFF; text-decoration: none; }
 .sw-foot a:hover { text-decoration: underline; }
 .sw-foot__links { display: flex; flex-direction: column; gap: 10px; }
