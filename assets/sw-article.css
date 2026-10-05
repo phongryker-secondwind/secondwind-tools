@@ -7,6 +7,8 @@
 .hero-tag { display:inline-flex; align-items:center; gap:6px; font-size:var(--sw-fs-xs); font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--sw-cyan); margin-bottom:var(--sw-sp-3); }
 .hero-title { max-width: 30ch; } /* v1.3.4: 20ch → 30ch, tiêu đề ít xuống dòng hơn */
 .hero-lede { max-width: 60ch; font-size: var(--sw-fs-lg); margin-top: var(--sw-sp-3); }
+/* v1.6.5: phần đầu trang chủ kéo chữ ra hết bề ngang khung (trang bài giữ nguyên giới hạn) */
+.hero-title--full, .hero-lede--full { max-width: none; }
 .hero-meta { margin-top:var(--sw-sp-5); font-size:var(--sw-fs-xs); color:var(--sw-ink-300); }
 
 .article-wrap { max-width: 720px; margin: 0 auto; padding: var(--sw-sp-7) var(--sw-sp-5) var(--sw-sp-8); }
