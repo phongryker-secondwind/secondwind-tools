@@ -140,6 +140,8 @@
 .sw-nav__btn--primary { background: var(--sw-primary); color: #FFFFFF; }
 .sw-nav__btn--primary:hover { opacity: .9; }
 .sw-nav__btn:focus-visible, .sw-nav__brand:focus-visible { outline: 2px solid var(--sw-cyan); outline-offset: 2px; }
+/* v1.6.8: nút Cơ hội công việc — chữ ngắn chỉ hiện trên màn hẹp */
+.sw-nav__lbl-short { display: none; }
 /* Bộ lọc trang chủ dính ngay dưới thanh điều hướng */
 .sw-nav ~ .index-wrap .index-controls { top: 56px; }
 @media (max-width: 480px) {
@@ -149,6 +151,10 @@
   .sw-nav__btn { padding: 6px 10px; font-size: var(--sw-fs-xs); }
   /* Màn hẹp: có logo thì ẩn chữ để không bị cắt "Tiệm Bảo bối …" */
   .sw-nav__logo + .sw-nav__name { display: none; }
+  /* v1.6.8: đủ chỗ cho 3 nút — nút về trang chủ chỉ còn mũi tên, nút Cơ hội dùng chữ ngắn, ẩn ↗ */
+  .sw-nav__links { gap: 6px; }
+  .sw-nav__lbl-home, .sw-nav__ext, .sw-nav__lbl { display: none; }
+  .sw-nav__lbl-short { display: inline; }
 }
 
 /* ---------- v1.5: Nút trên thẻ bài (trang chủ) ---------- */
